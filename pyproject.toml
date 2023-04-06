@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcc-api"
+authors = [
+    { name="James C.", email="james@cordon.click" }
+]
+description = "Wrapper for the MC Championship API"
+readme = "README.md"
+requires-python = ">= 3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "ratelimit",
+    "requests"
+]
+dynamic = [
+    "version"
+]
+
+[project.urls]
+"Repository" = "https://github.com/JamesMCo/python_mcc_api"
+"Issues" = "https://github.com/JamesMCo/python_mcc_api/issues"
+"Documentation" = "https://mrjamesco.uk/python_mcc_api"
+
+[tool.hatch.version]
+path = "mcc_api/__init__.py"

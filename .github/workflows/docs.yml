@@ -1,0 +1,42 @@
+name: Deploy Docs to GitHub Pages
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Check-Out Repository
+        uses: actions/checkout@v3
+      - name: 🐍 Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "pyproject.toml"
+      - name: ⏬ Install Required Packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+          pip install sphinx
+      - name: 🔨 Build Docs
+        run: sphinx-build -b html docs _site
+      - name: ⏫ Upload site artefact
+        uses: actions/upload-pages-artifact@v1
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: ⏫ Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
