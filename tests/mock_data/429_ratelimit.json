@@ -1,0 +1,4 @@
+{
+    "status": 429,
+    "reason": "Too many requests - limited to 40 per IP address per minute."
+}

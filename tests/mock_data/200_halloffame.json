@@ -1,0 +1,33 @@
+{
+    "code": 200,
+    "data": {
+        "GLOBAL_STATISTICS": {
+            "RECORD NAME 1": {
+                "placement": 0,
+                "player": "MCChampionship",
+                "value": "String value",
+                "changedHands": false
+            },
+            "RECORD NAME 2": {
+                "placement": 1,
+                "player": "MCChampionship",
+                "value": 0,
+                "changedHands": true
+            }
+        },
+        "LEGACY_STATISTICS": {
+            "RECORD NAME 1": {
+                "placement": 0,
+                "player": "MCChampionship",
+                "value": "String value",
+                "changedHands": false
+            },
+            "RECORD NAME 2": {
+                "placement": 1,
+                "player": "MCChampionship",
+                "value": 0,
+                "changedHands": true
+            }
+        }
+    }
+}

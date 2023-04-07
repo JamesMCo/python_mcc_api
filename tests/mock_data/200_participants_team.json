@@ -1,0 +1,25 @@
+{
+    "code": 200,
+    "data": [
+        {
+            "username": "GeeNelly",
+            "uuid": "30b6edfaefca4f25b5ad904d2b1ca032",
+            "stream": "https://twitch.tv/geenelly"
+        },
+        {
+            "username": "TapL",
+            "uuid": "2e12870c08ec4337bc2e8fbf54e79853",
+            "stream": "https://twitch.tv/tapl"
+        },
+        {
+            "username": "hannahxxrose",
+            "uuid": "5237b4b75eed421da43f0e4968e69207",
+            "stream": "https://twitch.tv/hannahxxrose"
+        },
+        {
+            "username": "sylvee_",
+            "uuid": "aec14d1e14e843cb89ed80d81153bc56",
+            "stream": "https://twitch.tv/sylveey"
+        }
+    ]
+}

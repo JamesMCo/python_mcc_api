@@ -1,0 +1,233 @@
+{
+    "code": 200,
+    "data": {
+        "RED": [
+            {
+                "username": "GeeNelly",
+                "uuid": "30b6edfaefca4f25b5ad904d2b1ca032",
+                "stream": "https://twitch.tv/geenelly"
+            },
+            {
+                "username": "TapL",
+                "uuid": "2e12870c08ec4337bc2e8fbf54e79853",
+                "stream": "https://twitch.tv/tapl"
+            },
+            {
+                "username": "hannahxxrose",
+                "uuid": "5237b4b75eed421da43f0e4968e69207",
+                "stream": "https://twitch.tv/hannahxxrose"
+            },
+            {
+                "username": "sylvee_",
+                "uuid": "aec14d1e14e843cb89ed80d81153bc56",
+                "stream": "https://twitch.tv/sylveey"
+            }
+        ],
+        "ORANGE": [
+            {
+                "username": "InTheLittleWood",
+                "uuid": "c9cf0c2e904c451986b12630828315c1",
+                "stream": "https://twitch.tv/inthelittlewood"
+            },
+            {
+                "username": "KaraCorvus",
+                "uuid": "acb6258b2952498c9776e3c4a84731a4",
+                "stream": "https://twitch.tv/karacorvus"
+            },
+            {
+                "username": "Ranboo",
+                "uuid": "284770fdd01a4507a0c947300c7d2b57",
+                "stream": "https://twitch.tv/RanbooLive"
+            },
+            {
+                "username": "Sneegsnag",
+                "uuid": "7c59923124d348bd936cd81560d567a0",
+                "stream": "https://twitch.tv/sneegsnag"
+            }
+        ],
+        "YELLOW": [
+            {
+                "username": "Blushi",
+                "uuid": "e1dd9ea80c3f4721bcb0f7a1f9cda167",
+                "stream": "https://twitch.tv/blushi"
+            },
+            {
+                "username": "Ph1LzA",
+                "uuid": "84555089add149b1a26d8021270a40f0",
+                "stream": "https://twitch.tv/philza"
+            },
+            {
+                "username": "SolidarityGaming",
+                "uuid": "dcdedb3cb8004414aa64414f17a179a2",
+                "stream": "https://youtube.com/channel/UC6XAct-Bus4x3mYz3VC_HUw"
+            },
+            {
+                "username": "aimsey",
+                "uuid": "dd25fe9f186546678fe9eacb18d01d31",
+                "stream": "https://twitch.tv/aimsey"
+            }
+        ],
+        "LIME": [
+            {
+                "username": "BadBoyHalo",
+                "uuid": "26bdff37fec848f1980f66bf69ee751c",
+                "stream": "https://twitch.tv/badboyhalo"
+            },
+            {
+                "username": "Ponk",
+                "uuid": "20748eb47d6e45ae83c2c6d262274540",
+                "stream": "https://twitch.tv/dropsbyponk"
+            },
+            {
+                "username": "Skeppy",
+                "uuid": "8e176c5ac26d4c148efe77b598b8b3ea",
+                "stream": "https://www.youtube.com/c/Skeppy"
+            },
+            {
+                "username": "awesamdude",
+                "uuid": "4777615aa8394b8fa8fbe57996b1e3d9",
+                "stream": "https://twitch.tv/awesamdude"
+            }
+        ],
+        "GREEN": [
+            {
+                "username": "Krinios",
+                "uuid": "2682cca069be4828b6efc4f08a2dda19",
+                "stream": "https://twitch.tv/krinios"
+            },
+            {
+                "username": "OrionSound",
+                "uuid": "2c3237c87b224d18a5fcc09066825947",
+                "stream": "https://twitch.tv/theorionsound"
+            },
+            {
+                "username": "Punz",
+                "uuid": "c30ecb029c1342d28c08984f1acbd8bf",
+                "stream": "https://twitch.tv/punz"
+            },
+            {
+                "username": "bekyamon",
+                "uuid": "2bbb5709ebd448388cd7466efc42db11",
+                "stream": "https://twitch.tv/bekyamon"
+            }
+        ],
+        "CYAN": [
+            {
+                "username": "PearlescentMoon",
+                "uuid": "75c863aebb92486d911c53030c552be0",
+                "stream": "https://twitch.tv/PearlescentMoon"
+            },
+            {
+                "username": "PeteZahHutt",
+                "uuid": "7ac3c39f23d5472aa7c924798265fa15",
+                "stream": "https://twitch.tv/petezahhutt"
+            },
+            {
+                "username": "Seapeekay",
+                "uuid": "be0cfbc2f626483580c3924268faf27b",
+                "stream": "https://twitch.tv/Seapeekay"
+            },
+            {
+                "username": "truesymmetry",
+                "uuid": "24453bad63a448138a0c4ecd77f2f696",
+                "stream": "https://twitch.tv/falsesymmetry"
+            }
+        ],
+        "AQUA": [
+            {
+                "username": "Antfrost",
+                "uuid": "0a28b1829fb34d6ebd96fabd2fe6648a",
+                "stream": "https://twitch.tv/Antfrost"
+            },
+            {
+                "username": "ConnorEatsPants",
+                "uuid": "519996d9dcc3433bb45b21ad82578205",
+                "stream": "https://twitch.tv/ConnorEatsPants"
+            },
+            {
+                "username": "RedVelvetCake",
+                "uuid": "c99630c0ab2247e1a500667f0ae42b0f",
+                "stream": "https://twitch.tv/velvetiscake"
+            },
+            {
+                "username": "Tubbo_",
+                "uuid": "06f7cd124f00434285f6956b1ca48d38",
+                "stream": "https://twitch.tv/tubbo"
+            }
+        ],
+        "BLUE": [
+            {
+                "username": "GeminiTay",
+                "uuid": "5a1839d2cecc4c85aa08b346f9f772a1",
+                "stream": "https://twitch.tv/geminitay"
+            },
+            {
+                "username": "Smajor1995",
+                "uuid": "32a8846755ed4ac7983882bf682b33bc",
+                "stream": "https://twitch.tv/Smajor"
+            },
+            {
+                "username": "Smallishbeans",
+                "uuid": "69b3107a6d034122b5677652fcc3cdb2",
+                "stream": "https://youtube.com/channel/UC4qdHN4zHhd4VvNy3zNgXPA"
+            },
+            {
+                "username": "fWhip",
+                "uuid": "ca2eb47eef664f6391e0939b76047f27",
+                "stream": "https://www.youtube.com/channel/UCwqJYTxm3FAZXeV58EdFcRQ"
+            }
+        ],
+        "PURPLE": [
+            {
+                "username": "Drgluon",
+                "uuid": "eafd010423484d8282379c2dfb80a63f",
+                "stream": "https://twitch.tv/drgluon"
+            },
+            {
+                "username": "FireBreathMan",
+                "uuid": "c3ef41ce0da54a23ae9484305de8d99b",
+                "stream": "https://twitch.tv/firebreathman"
+            },
+            {
+                "username": "KryticZeuZ",
+                "uuid": "b7f04012db344f4a97458cdc5bc8132b",
+                "stream": "https://twitch.tv/kryticzeuz"
+            },
+            {
+                "username": "Vixella",
+                "uuid": "8325c0d8bf3c4db3990072bf6f567d83",
+                "stream": "https://twitch.tv/vixella"
+            }
+        ],
+        "PINK": [
+            {
+                "username": "Grian",
+                "uuid": "5f8eb73b25be4c5aa50fd27d65e30ca0",
+                "stream": "https://youtube.com/channel/UCR9Gcq0CMm6YgTzsDxAxjOQ"
+            },
+            {
+                "username": "LDShadowLady",
+                "uuid": "751b090e012e4847974ea666cfc2603d",
+                "stream": "https://twitch.tv/ldshadowlady"
+            },
+            {
+                "username": "ShubbleYT",
+                "uuid": "d79ba1cf79cf42eaa2f887cc2c5a899c",
+                "stream": "https://twitch.tv/shubble"
+            },
+            {
+                "username": "jojosolos",
+                "uuid": "d96b2fdf3ffd42d1a1ed3b26b3d5e173",
+                "stream": "https://twitch.tv/jojosolos"
+            }
+        ],
+        "SPECTATORS": [
+            {
+                "username": "Noxite",
+                "uuid": "3e7a89eec4e24392a317444b861b0794",
+                "stream": "https://twitch.tv/thenoxcrew"
+            }
+        ],
+        "NONE": []
+    }
+}
