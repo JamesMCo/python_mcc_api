@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: 📂 Check-Out Repository
         uses: actions/checkout@v3
-        with:
-          ref: main
       - name: 🐍 Set Up Python
         uses: actions/setup-python@v4
         with:
