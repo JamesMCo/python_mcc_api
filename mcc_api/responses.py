@@ -20,7 +20,7 @@ class BaseResponse:
         data: dict[str, t.Any] = self._extract_json_data(request)
         self.__json = json.dumps(data)
 
-        self.code = data.get("code")
+        self.code = data.get("code", data.get("status"))
         self.reason = data.get("reason")
 
         if self.code == 429:
