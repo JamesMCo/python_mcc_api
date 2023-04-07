@@ -19,16 +19,12 @@ class Result(unittest.TextTestResult):
     def addError(self, test, err):
         super().addError(test, err)
         if self.job_summary:
-            name = self.getDescription(test).split()[0]
-            url = f"#{self.getDescription(test).split()[1].strip('()').replace('.', '')}"
-            self.job_summary.write(f"[{name}]({url})|❗\n")
+            self.job_summary.write(f"{self.getDescription(test).split()[0]}|❗\n")
 
     def addFailure(self, test, err):
         super().addFailure(test, err)
         if self.job_summary:
-            name = self.getDescription(test).split()[0]
-            url = f"#{self.getDescription(test).split()[1].strip('()').replace('.', '')}"
-            self.job_summary.write(f"[{name}]({url})|❌\n")
+            self.job_summary.write(f"{self.getDescription(test).split()[0]}|❌\n")
 
     def addSkip(self, test, reason):
         super().addSkip(test, reason)
@@ -43,9 +39,7 @@ class Result(unittest.TextTestResult):
     def addUnexpectedSuccess(self, test):
         super().addUnexpectedSuccess(test)
         if self.job_summary:
-            name = self.getDescription(test).split()[0]
-            url = f"#{self.getDescription(test).split()[1].strip('()').replace('.', '')}"
-            self.job_summary.write(f"[{name}]({url})|❌\n")
+            self.job_summary.write(f"{self.getDescription(test).split()[0]}|❌\n")
 
     def printErrors(self):
         super().printErrors()
@@ -72,20 +66,17 @@ class Result(unittest.TextTestResult):
                     test_name = self.getDescription(test).split()[1].strip("()")
                     self.job_summary.write(f"## {test_name}\n")
                     self.job_summary.write(f"```python-traceback\n{err.rstrip()}\n```\n")
-                    self.job_summary.write("[⬆️ Back to Test Results](#test-results)\n")
             if self.failures:
                 self.job_summary.write("# Failures\n")
                 for test, err in self.failures:
                     test_name = self.getDescription(test).split()[1].strip("()")
                     self.job_summary.write(f"## {test_name}\n")
                     self.job_summary.write(f"```python-traceback\n{err.rstrip()}\n```\n")
-                    self.job_summary.write("[⬆️ Back to Test Results](#test-results)\n")
             if self.unexpectedSuccesses:
                 self.job_summary.write("# Unexpected Successes\n")
                 for test in self.unexpectedSuccesses:
                     test_name = self.getDescription(test).split()[1].strip("()")
                     self.job_summary.write(f"## {test_name}\n")
-                    self.job_summary.write("[⬆️ Back to Test Results](#test-results)\n")
 
     def __del__(self):
         if self.job_summary:
