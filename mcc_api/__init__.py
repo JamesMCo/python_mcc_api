@@ -16,11 +16,16 @@ import typing as t
 import warnings
 
 __all__ = [
+    "get_event",
+    "get_hall_of_fame",
+    "get_rundown",
+    "get_participants",
+
     "enums",
     "exceptions",
     "responses"
 ]
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 __base_url: t.Final[str] = "https://api.mcchampionship.com/v1"
 __user_agent: t.Final[str] = f"python_mcc_api/{__version__} (https://github.com/JamesMCo/python_mcc_api)"
