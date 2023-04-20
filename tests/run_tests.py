@@ -91,12 +91,7 @@ class Runner(unittest.TextTestRunner):
 
 
 if __name__ == "__main__":
-    from test_event import *
-    from test_halloffame import *
-    from test_participants import *
-    from test_rundown import *
-
     if job_summary_path := os.getenv("GITHUB_STEP_SUMMARY"):
         with open(job_summary_path, "w", encoding="utf-8") as job_summary:
             job_summary.write("")
-    unittest.main(verbosity=2, testRunner=Runner)
+    Runner(verbosity=2).run(unittest.TestLoader().discover("."))
