@@ -8,7 +8,8 @@ class Result(unittest.TextTestResult):
         super().__init__(stream, descriptions, verbosity)
         if os.getenv("GITHUB_STEP_SUMMARY"):
             self.job_summary = open(os.getenv("GITHUB_STEP_SUMMARY"), "a", encoding="utf-8")
-            self.job_summary.write("# Test Results\n\nName|Result\n-|-\n")
+            self.job_summary.write(f"# Test Results (Python {'.'.join(str(n) for n in sys.version_info[:3])})\n\n")
+            self.job_summary.write("Name|Result\n-|-\n")
         else:
             self.job_summary = None
 
