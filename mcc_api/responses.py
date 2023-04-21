@@ -63,7 +63,7 @@ class EventInformationResponse(BaseResponse):
         super().__init__(data)
 
         self.data = EventInformationData(
-            date=datetime.fromisoformat(data["data"]["date"]),
+            date=datetime.strptime(data["data"]["date"], "%Y-%m-%dT%H:%M:%S.%fZ"),
             event=data["data"]["event"],
             updateVideo=data["data"].get("updateVideo")
         )
