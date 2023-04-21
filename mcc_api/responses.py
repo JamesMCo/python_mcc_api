@@ -16,7 +16,7 @@ class BaseResponse:
     """Reason for the response code, if applicable."""
     __json: str
 
-    def __init__(self: t.Self, request: requests.Response | dict[str, t.Any]) -> None:
+    def __init__(self: "BaseResponse", request: requests.Response | dict[str, t.Any]) -> None:
         data: dict[str, t.Any] = self._extract_json_data(request)
         self.__json = json.dumps(data)
 
@@ -32,7 +32,7 @@ class BaseResponse:
         return data.json() if isinstance(data, requests.Response) else data
 
     @property
-    def json(self: t.Self) -> str:
+    def json(self: "BaseResponse") -> str:
         """JSON string of the data returned by the API."""
         return self.__json
 
@@ -58,7 +58,7 @@ class EventInformationResponse(BaseResponse):
     data: EventInformationData
     """Current event cycle's event data."""
 
-    def __init__(self: t.Self, request: requests.Response | dict[str, t.Any]) -> None:
+    def __init__(self: "EventInformationResponse", request: requests.Response | dict[str, t.Any]) -> None:
         data: dict[str, t.Any] = self._extract_json_data(request)
         super().__init__(data)
 
@@ -130,7 +130,7 @@ class HallOfFameResponse(BaseResponse):
        }
     """
 
-    def __init__(self: t.Self, request: requests.Response | dict[str, t.Any]) -> None:
+    def __init__(self: "HallOfFameResponse", request: requests.Response | dict[str, t.Any]) -> None:
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 
@@ -171,7 +171,7 @@ class HallOfFameGameResponse(BaseResponse):
        }
     """
 
-    def __init__(self: t.Self, request: requests.Response | dict[str, t.Any]) -> None:
+    def __init__(self: "HallOfFameGameResponse", request: requests.Response | dict[str, t.Any]) -> None:
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 
@@ -252,7 +252,7 @@ class RundownResponse(BaseResponse):
     data: EventRundown
     """Object representing the event's data."""
 
-    def __init__(self: t.Self, request: requests.Response | dict[str, t.Any]) -> None:
+    def __init__(self: "RundownResponse", request: requests.Response | dict[str, t.Any]) -> None:
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 
@@ -300,7 +300,7 @@ class ParticipantsResponse(BaseResponse):
     data: dict[Team, list[Creator]]
     """Dictionary mapping from teams to lists of detailed participant data."""
 
-    def __init__(self: t.Self, request: requests.Response | dict[str, t.Any]) -> None:
+    def __init__(self: "ParticipantsResponse", request: requests.Response | dict[str, t.Any]) -> None:
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 
@@ -317,7 +317,7 @@ class ParticipantsTeamResponse(BaseResponse):
     data: list[Creator]
     """List of detailed participant data."""
 
-    def __init__(self: t.Self, request: requests.Response | dict[str, t.Any]) -> None:
+    def __init__(self: "ParticipantsTeamResponse", request: requests.Response | dict[str, t.Any]) -> None:
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 

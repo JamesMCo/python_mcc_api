@@ -8,18 +8,18 @@ class TestEventParticipants200(unittest.TestCase):
     response_json: dict[str, t.Any]
     response_object: mcc_api.ParticipantsResponse
 
-    def setUp(self: t.Self) -> None:
+    def setUp(self: "TestEventParticipants200") -> None:
         with open("mock_data/200_participants.json") as f:
             f: t.TextIO
             self.response_json = json.loads(f.read())
         self.response_object = mcc_api.ParticipantsResponse(self.response_json)
 
-    def test_all_teams_present(self: t.Self) -> None:
+    def test_all_teams_present(self: "TestEventParticipants200") -> None:
         for team in mcc_api.Team:
             with self.subTest(team=str(team)):
                 self.assertIn(team, self.response_object.data)
 
-    def test_all_participants_unique(self: t.Self) -> None:
+    def test_all_participants_unique(self: "TestEventParticipants200") -> None:
         participants_count: int = 0
         usernames: set[str] = set()
         uuids: set[str] = set()
@@ -38,7 +38,7 @@ class TestEventParticipants200(unittest.TestCase):
 
 
 class TestParticipantsEndpoint429(unittest.TestCase):
-    def test_participants_ratelimit_exception(self: t.Self) -> None:
+    def test_participants_ratelimit_exception(self: "TestParticipantsEndpoint429") -> None:
         with open("mock_data/429_ratelimit.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
@@ -49,13 +49,13 @@ class TestEventParticipantsTeam200(unittest.TestCase):
     response_json: dict[str, t.Any]
     response_object: mcc_api.ParticipantsTeamResponse
 
-    def setUp(self: t.Self) -> None:
+    def setUp(self: "TestEventParticipantsTeam200") -> None:
         with open("mock_data/200_participants_team.json") as f:
             f: t.TextIO
             self.response_json = json.loads(f.read())
         self.response_object = mcc_api.ParticipantsTeamResponse(self.response_json)
 
-    def test_all_participants_unique(self: t.Self) -> None:
+    def test_all_participants_unique(self: "TestEventParticipantsTeam200") -> None:
         participants_count: int = 0
         usernames: set[str] = set()
         uuids: set[str] = set()
@@ -72,7 +72,7 @@ class TestEventParticipantsTeam200(unittest.TestCase):
 
 
 class TestParticipantsTeamEndpoint400(unittest.TestCase):
-    def test_participants_team_invalid_team_exception(self: t.Self) -> None:
+    def test_participants_team_invalid_team_exception(self: "TestParticipantsTeamEndpoint400") -> None:
         with open("mock_data/400_participants_team.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
@@ -80,7 +80,7 @@ class TestParticipantsTeamEndpoint400(unittest.TestCase):
 
 
 class TestParticipantsTeamEndpoint429(unittest.TestCase):
-    def test_participants_team_ratelimit_exception(self: t.Self) -> None:
+    def test_participants_team_ratelimit_exception(self: "TestParticipantsTeamEndpoint429") -> None:
         with open("mock_data/429_ratelimit.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())

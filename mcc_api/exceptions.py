@@ -9,7 +9,7 @@ class MCCAPIError(BaseException):
     reason: t.Optional[str]
     """Reason for the response code, if applicable."""
 
-    def __init__(self: t.Self, code: int, reason: t.Optional[str]) -> None:
+    def __init__(self: "MCCAPIError", code: int, reason: t.Optional[str]) -> None:
         self.code = code
         self.reason = reason
 

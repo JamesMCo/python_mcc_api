@@ -8,13 +8,13 @@ class TestRundownEndpoint200(unittest.TestCase):
     response_json: dict[str, t.Any]
     response_object: mcc_api.RundownResponse
 
-    def setUp(self: t.Self) -> None:
+    def setUp(self: "TestRundownEndpoint200") -> None:
         with open("mock_data/200_rundown.json") as f:
             f: t.TextIO
             self.response_json = json.loads(f.read())
         self.response_object = mcc_api.RundownResponse(self.response_json)
 
-    def test_dodgebolt(self: t.Self) -> None:
+    def test_dodgebolt(self: "TestRundownEndpoint200") -> None:
         self.assertEqual(len(self.response_object.data.dodgeboltData), 2)
 
         team_one: mcc_api.Team
@@ -27,7 +27,7 @@ class TestRundownEndpoint200(unittest.TestCase):
             self.response_object.data.dodgeboltData[team_two]
         )
 
-    def test_event_placements_and_scores_match(self: t.Self) -> None:
+    def test_event_placements_and_scores_match(self: "TestRundownEndpoint200") -> None:
         placements: list[mcc_api.Team] = sorted(
             self.response_object.data.eventPlacements.keys(),
             key=lambda team: self.response_object.data.eventPlacements[team],
@@ -39,7 +39,7 @@ class TestRundownEndpoint200(unittest.TestCase):
         )
         self.assertEqual(placements, scores)
 
-    def test_event_individual_scores_contain_all_participants(self: t.Self) -> None:
+    def test_event_individual_scores_contain_all_participants(self: "TestRundownEndpoint200") -> None:
         participant_teams: list[mcc_api.Team] = [
             mcc_api.Team.RED,
             mcc_api.Team.ORANGE,
@@ -62,17 +62,17 @@ class TestRundownEndpoint200(unittest.TestCase):
             sorted(participants, key=str.casefold)
         )
 
-    def test_history_contains_eight_games(self: t.Self) -> None:
+    def test_history_contains_eight_games(self: "TestRundownEndpoint200") -> None:
         self.assertEqual(len(self.response_object.data.history), 8)
 
-    def test_history_multipliers(self: t.Self) -> None:
+    def test_history_multipliers(self: "TestRundownEndpoint200") -> None:
         for game, multiplier in zip(range(8), [1, 1.5, 1.5, 2, 2, 2.5, 2.5, 3]):
             with self.subTest(game=game):
                 self.assertEqual(self.response_object.data.history[str(game)].multiplier, multiplier)
 
 
 class TestRundownEndpoint400(unittest.TestCase):
-    def test_rundown_invalid_event_exception(self: t.Self) -> None:
+    def test_rundown_invalid_event_exception(self: "TestRundownEndpoint400") -> None:
         with open("mock_data/400_rundown.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
@@ -80,7 +80,7 @@ class TestRundownEndpoint400(unittest.TestCase):
 
 
 class TestRundownEndpoint429(unittest.TestCase):
-    def test_rundown_ratelimit_exception(self: t.Self) -> None:
+    def test_rundown_ratelimit_exception(self: "TestRundownEndpoint429") -> None:
         with open("mock_data/429_ratelimit.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
