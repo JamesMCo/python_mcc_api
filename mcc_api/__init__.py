@@ -25,7 +25,7 @@ __all__ = [
     "exceptions",
     "responses"
 ]
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 __base_url: t.Final[str] = "https://api.mcchampionship.com/v1"
 __user_agent: t.Final[str] = f"python_mcc_api/{__version__} (https://github.com/JamesMCo/python_mcc_api)"
@@ -76,7 +76,7 @@ def get_hall_of_fame(game: t.Optional[Game] = None):
     """
     warnings.warn("The /halloffame endpoint is deprecated and will be removed in a future release of the API. "
                   "See https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.3.0",
-                  DeprecationWarning)
+                  DeprecationWarning, stacklevel=2)
     if game:
         return HallOfFameGameResponse(__request(f"halloffame/{game}"))
     else:
