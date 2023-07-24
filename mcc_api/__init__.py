@@ -25,7 +25,7 @@ __all__ = [
     "exceptions",
     "responses"
 ]
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 
 __base_url: t.Final[str] = "https://api.mcchampionship.com/v1"
 __user_agent: t.Final[str] = f"python_mcc_api/{__version__} (https://github.com/JamesMCo/python_mcc_api)"
@@ -33,29 +33,36 @@ __user_agent: t.Final[str] = f"python_mcc_api/{__version__} (https://github.com/
 
 @ratelimit.sleep_and_retry
 @ratelimit.limits(calls=40, period=60)
-def __request(endpoint: str) -> requests.Response:
+def __request(endpoint: str, timeout: int) -> requests.Response:
     """Make and return a request to the given endpoint of the MCC API.
     
-    Limited to 40 calls per minute, and will sleep until the rate limit resets if exceeded."""
-    return requests.get(f"{__base_url.rstrip('/')}/{endpoint}", headers={"User-Agent": __user_agent})
+    Limited to 40 calls per minute, and will sleep until the rate limit resets if exceeded.
+    Timeout parameter is passed to requests module directly."""
+    return requests.get(
+        f"{__base_url.rstrip('/')}/{endpoint}",
+        headers={"User-Agent": __user_agent},
+        timeout=timeout
+    )
 
 
-def get_event() -> EventInformationResponse:
+def get_event(*, timeout: int = 5) -> EventInformationResponse:
     """Get event data for the current event cycle.
     
     - Calls the `/event <https://api.mcchampionship.com/docs/#/v1/AppController_getEventInformation>`_ endpoint.
     - Returns an :class:`mcc_api.EventInformationResponse` representing the current event cycle's event.
+    - May raise a :class:`requests.Timeout` exception, with the number of seconds before timing out specified by the
+      `timeout` parameter and defaulting to 5.
     """
-    return EventInformationResponse(__request("event"))
+    return EventInformationResponse(__request("event", timeout))
 
 
 @t.overload
-def get_hall_of_fame() -> HallOfFameResponse: ...
+def get_hall_of_fame(*, timeout: int = 5) -> HallOfFameResponse: ...
 @t.overload
-def get_hall_of_fame(game: Game) -> HallOfFameGameResponse: ...
+def get_hall_of_fame(game: Game, *, timeout: int = 5) -> HallOfFameGameResponse: ...
 
 
-def get_hall_of_fame(game: t.Optional[Game] = None):
+def get_hall_of_fame(game: t.Optional[Game] = None, *, timeout: int = 5):
     """Get hall of fame data, optionally restricted to a single game.
     
     When called with no `game` parameter:
@@ -70,6 +77,10 @@ def get_hall_of_fame(game: t.Optional[Game] = None):
         - May raise an :class:`mcc_api.exceptions.InvalidGameError` exception, which can be avoided by passing an
           :class:`mcc_api.Game` enum.
 
+    In either case:
+        - May raise a :class:`requests.Timeout` exception, with the number of seconds before timing out specified by the
+          `timeout` parameter and defaulting to 5.
+
     .. warning::
        The /halloffame endpoint is deprecated and will be removed in a future release of the API.
        See https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.3.0
@@ -78,12 +89,12 @@ def get_hall_of_fame(game: t.Optional[Game] = None):
                   "See https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.3.0",
                   DeprecationWarning, stacklevel=2)
     if game:
-        return HallOfFameGameResponse(__request(f"halloffame/{game}"))
+        return HallOfFameGameResponse(__request(f"halloffame/{game}", timeout))
     else:
-        return HallOfFameResponse(__request("halloffame"))
+        return HallOfFameResponse(__request("halloffame", timeout))
 
 
-def get_rundown(event: t.Optional[str] = None) -> RundownResponse:
+def get_rundown(event: t.Optional[str] = None, *, timeout: int = 5) -> RundownResponse:
     """Get an event's rundown data.
 
     When called with no `event` parameter:
@@ -95,20 +106,24 @@ def get_rundown(event: t.Optional[str] = None) -> RundownResponse:
           endpoint.
         - Returns a :class:`mcc_api.RundownResponse` representing the given event.
         - May raise an :class:`mcc_api.exceptions.InvalidEventError` exception.
+
+    In either case:
+        - May raise a :class:`requests.Timeout` exception, with the number of seconds before timing out specified by the
+          `timeout` parameter and defaulting to 5.
     """
     if event:
-        return RundownResponse(__request(f"rundown/{event}"))
+        return RundownResponse(__request(f"rundown/{event}", timeout))
     else:
-        return RundownResponse(__request("rundown"))
+        return RundownResponse(__request("rundown", timeout))
 
 
 @t.overload
-def get_participants() -> ParticipantsResponse: ...
+def get_participants(*, timeout: int = 5) -> ParticipantsResponse: ...
 @t.overload
-def get_participants(team: Team) -> ParticipantsTeamResponse: ...
+def get_participants(team: Team, *, timeout: int = 5) -> ParticipantsTeamResponse: ...
 
 
-def get_participants(team: t.Optional[Team] = None):
+def get_participants(team: t.Optional[Team] = None, *, timeout: int = 5):
     """Get the participants in the current event cycle.
     
     When called with no `team` parameter:
@@ -123,8 +138,12 @@ def get_participants(team: t.Optional[Team] = None):
           current event cycle.
         - May raise an :class:`mcc_api.exceptions.InvalidTeamError` exception, which can be avoided by passing an
           :class:`mcc_api.Team` enum.
+
+    In either case:
+        - May raise a :class:`requests.Timeout` exception, with the number of seconds before timing out specified by the
+          `timeout` parameter and defaulting to 5.
     """
     if team:
-        return ParticipantsTeamResponse(__request(f"participants/{team}"))
+        return ParticipantsTeamResponse(__request(f"participants/{team}", timeout))
     else:
-        return ParticipantsResponse(__request("participants"))
+        return ParticipantsResponse(__request("participants", timeout))
