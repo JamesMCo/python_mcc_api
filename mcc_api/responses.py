@@ -175,7 +175,7 @@ class HallOfFameGameResponse(BaseResponse):
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 
-        if self.code == 400:
+        if self.code == 404:
             raise InvalidGameError(self.code, self.reason)
 
         self.data = {
@@ -256,7 +256,7 @@ class RundownResponse(BaseResponse):
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 
-        if self.code == 400:
+        if self.code == 404:
             raise InvalidEventError(self.code, self.reason)
 
         self.data = EventRundown(
@@ -321,7 +321,7 @@ class ParticipantsTeamResponse(BaseResponse):
         data: dict[str, t.Any] = super()._extract_json_data(request)
         super().__init__(data)
 
-        if self.code == 400:
+        if self.code == 404:
             raise InvalidTeamError(self.code, self.reason)
 
         self.data = [

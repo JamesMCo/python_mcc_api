@@ -71,9 +71,9 @@ class TestRundownEndpoint200(unittest.TestCase):
                 self.assertEqual(self.response_object.data.history[str(game)].multiplier, multiplier)
 
 
-class TestRundownEndpoint400(unittest.TestCase):
-    def test_rundown_invalid_event_exception(self: "TestRundownEndpoint400") -> None:
-        with open("mock_data/400_rundown.json") as f:
+class TestRundownEndpoint404(unittest.TestCase):
+    def test_rundown_invalid_event_exception(self: "TestRundownEndpoint404") -> None:
+        with open("mock_data/404_rundown.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
         self.assertRaises(mcc_api.exceptions.InvalidEventError, mcc_api.RundownResponse, response_json)

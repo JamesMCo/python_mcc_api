@@ -25,7 +25,7 @@ __all__ = [
     "exceptions",
     "responses"
 ]
-__version__ = "1.0.5"
+__version__ = "1.0.6"
 
 __base_url: t.Final[str] = "https://api.mcchampionship.com/v1"
 __user_agent: t.Final[str] = f"python_mcc_api/{__version__} (https://github.com/JamesMCo/python_mcc_api)"

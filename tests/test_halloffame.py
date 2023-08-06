@@ -77,9 +77,9 @@ class TestHallOfFameGameEndpoint200(unittest.TestCase):
         self.assertTrue(records["RECORD NAME 2"].changedHands)
 
 
-class TestHallOfFameGameEndpoint400(unittest.TestCase):
-    def test_halloffame_game_invalid_game_exception(self: "TestHallOfFameGameEndpoint400") -> None:
-        with open("mock_data/400_halloffame_game.json") as f:
+class TestHallOfFameGameEndpoint404(unittest.TestCase):
+    def test_halloffame_game_invalid_game_exception(self: "TestHallOfFameGameEndpoint404") -> None:
+        with open("mock_data/404_halloffame_game.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
         self.assertRaises(mcc_api.exceptions.InvalidGameError, mcc_api.HallOfFameGameResponse, response_json)

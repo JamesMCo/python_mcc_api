@@ -71,9 +71,9 @@ class TestEventParticipantsTeam200(unittest.TestCase):
         self.assertEqual(participants_count, len(uuids))
 
 
-class TestParticipantsTeamEndpoint400(unittest.TestCase):
-    def test_participants_team_invalid_team_exception(self: "TestParticipantsTeamEndpoint400") -> None:
-        with open("mock_data/400_participants_team.json") as f:
+class TestParticipantsTeamEndpoint404(unittest.TestCase):
+    def test_participants_team_invalid_team_exception(self: "TestParticipantsTeamEndpoint404") -> None:
+        with open("mock_data/404_participants_team.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
         self.assertRaises(mcc_api.exceptions.InvalidTeamError, mcc_api.ParticipantsTeamResponse, response_json)
