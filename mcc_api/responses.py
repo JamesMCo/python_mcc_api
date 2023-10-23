@@ -259,6 +259,18 @@ class RundownResponse(BaseResponse):
         if self.code == 404:
             raise InvalidEventError(self.code, self.reason)
 
+        def history_contains_game(history_entry: tuple[str, dict[str, t.Any]]) -> bool:
+            game_num: str
+            game_data: dict[str, t.Any]
+            game_num, game_data = history_entry
+
+            if not game_num.isdecimal():
+                return False
+            elif any(key not in game_data for key in ["index", "game", "multiplier"]):
+                return False
+
+            return True
+
         self.data = EventRundown(
             dodgeboltData={Team[team]: score for team, score in data["data"]["dodgeboltData"].items()},
             eventPlacements={Team[team]: placement for team, placement in data["data"]["eventPlacements"].items()},
@@ -277,7 +289,7 @@ class RundownResponse(BaseResponse):
                 if "gamePlacements" in game_data else None,
                 eventPlacements={Team[team]: placement for team, placement in game_data["eventPlacements"].items()}
                 if "eventPlacements" in game_data else None
-            ) for game_num, game_data in data["data"]["history"].items()},
+            ) for game_num, game_data in filter(history_contains_game, data["data"]["history"].items())},
             creators={Team[team]: creator for team, creator in data["data"]["creators"].items()}
         )
 
