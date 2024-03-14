@@ -14,13 +14,13 @@ A wrapper for the `MC Championship API <https://api.mcchampionship.com>`_, inspi
 Methods
 -------
 
-.. automodule:: mcc_api
+.. automodule:: mcc_api.event
    :members:
 
 Responses
 ---------
 
-.. automodule:: mcc_api.responses
+.. automodule:: mcc_api.event.responses
    :members:
    :inherited-members:
    :show-inheritance:
@@ -28,7 +28,7 @@ Responses
 Enums
 -----
 
-.. automodule:: mcc_api.enums
+.. automodule:: mcc_api.event.enums
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,6 +36,6 @@ Enums
 Exceptions
 ----------
 
-.. automodule:: mcc_api.exceptions
+.. automodule:: mcc_api.event.exceptions
    :members:
    :show-inheritance:

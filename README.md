@@ -25,19 +25,27 @@ pip install --upgrade mcc-api
 ## Usage
 
 ```python
-import mcc_api
+from datetime import datetime, timezone
+from mcc_api.event import get_event, get_rundown
 
 # Print information about the current event cycle
-from datetime import datetime, timezone
-event = mcc_api.get_event()
+
+event = get_event()
+event_name = event.data.event
+event_start = event.data.date.strftime("%I%p UTC on %A %d %B %Y")
+
 if event.data.date <= datetime.now(tz=timezone.utc):
-    print(f"The latest event (MCC {event.data.event}) started at {event.data.date.strftime('%I%p UTC on %A %d %B %Y')}.")
+    print(f"The latest event (MCC {event_name}) started at {event_start}.")
 else:
-    print(f"The upcoming event (MCC {event.data.event}) starts at {event.data.date.strftime('%I%p UTC on %A %d %B %Y')}.")
+    print(f"The upcoming event (MCC {event_name}) starts at {event_start}.")
+
 
 # Print the names of the players that played in Dodgebolt in the latest event
-rundown = mcc_api.get_rundown()
+
+rundown = get_rundown()
+
 dodgebolt_teams = rundown.data.dodgeboltData.keys()
 players = sorted([player for team in dodgebolt_teams for player in rundown.data.creators[team]], key=str.casefold)
-print(f"The players that played in Dodgebolt in the latest event were {', and '.join([', '.join(players[:-1]), players[-1]])}.")
+
+print(f"The players that played in Dodgebolt in the latest event were:\n- {'\n- '.join(players)}")
 ```

@@ -1,4 +1,4 @@
-import mcc_api
+import mcc_api.event as event_api
 import json
 import typing as t
 import unittest
@@ -6,19 +6,19 @@ import unittest
 
 class TestRundownEndpoint200(unittest.TestCase):
     response_json: dict[str, t.Any]
-    response_object: mcc_api.RundownResponse
+    response_object: event_api.RundownResponse
 
     def setUp(self: "TestRundownEndpoint200") -> None:
-        with open("mock_data/200_rundown.json") as f:
+        with open("event/mock_data/200_rundown.json") as f:
             f: t.TextIO
             self.response_json = json.loads(f.read())
-        self.response_object = mcc_api.RundownResponse(self.response_json)
+        self.response_object = event_api.RundownResponse(self.response_json)
 
     def test_dodgebolt(self: "TestRundownEndpoint200") -> None:
         self.assertEqual(len(self.response_object.data.dodgeboltData), 2)
 
-        team_one: mcc_api.Team
-        team_two: mcc_api.Team
+        team_one: event_api.Team
+        team_two: event_api.Team
         team_one, team_two = self.response_object.data.dodgeboltData.keys()
 
         self.assertNotEqual(team_one, team_two)
@@ -28,29 +28,29 @@ class TestRundownEndpoint200(unittest.TestCase):
         )
 
     def test_event_placements_and_scores_match(self: "TestRundownEndpoint200") -> None:
-        placements: list[mcc_api.Team] = sorted(
+        placements: list[event_api.Team] = sorted(
             self.response_object.data.eventPlacements.keys(),
             key=lambda team: self.response_object.data.eventPlacements[team],
             reverse=True
         )
-        scores: list[mcc_api.Team] = sorted(
+        scores: list[event_api.Team] = sorted(
             self.response_object.data.eventScores.keys(),
             key=lambda team: self.response_object.data.eventScores[team]
         )
         self.assertEqual(placements, scores)
 
     def test_event_individual_scores_contain_all_participants(self: "TestRundownEndpoint200") -> None:
-        participant_teams: list[mcc_api.Team] = [
-            mcc_api.Team.RED,
-            mcc_api.Team.ORANGE,
-            mcc_api.Team.YELLOW,
-            mcc_api.Team.LIME,
-            mcc_api.Team.GREEN,
-            mcc_api.Team.CYAN,
-            mcc_api.Team.AQUA,
-            mcc_api.Team.BLUE,
-            mcc_api.Team.PURPLE,
-            mcc_api.Team.PINK
+        participant_teams: list[event_api.Team] = [
+            event_api.Team.RED,
+            event_api.Team.ORANGE,
+            event_api.Team.YELLOW,
+            event_api.Team.LIME,
+            event_api.Team.GREEN,
+            event_api.Team.CYAN,
+            event_api.Team.AQUA,
+            event_api.Team.BLUE,
+            event_api.Team.PURPLE,
+            event_api.Team.PINK
         ]
         participants: list[str] = [
             participant
@@ -73,18 +73,18 @@ class TestRundownEndpoint200(unittest.TestCase):
 
 class TestRundownEndpoint404(unittest.TestCase):
     def test_rundown_invalid_event_exception(self: "TestRundownEndpoint404") -> None:
-        with open("mock_data/404_rundown.json") as f:
+        with open("event/mock_data/404_rundown.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
-        self.assertRaises(mcc_api.exceptions.InvalidEventError, mcc_api.RundownResponse, response_json)
+        self.assertRaises(event_api.exceptions.InvalidEventError, event_api.RundownResponse, response_json)
 
 
 class TestRundownEndpoint429(unittest.TestCase):
     def test_rundown_ratelimit_exception(self: "TestRundownEndpoint429") -> None:
-        with open("mock_data/429_ratelimit.json") as f:
+        with open("event/mock_data/429_ratelimit.json") as f:
             f: t.TextIO
             response_json: dict[str, t.Any] = json.loads(f.read())
-        self.assertRaises(mcc_api.exceptions.RateLimitError, mcc_api.RundownResponse, response_json)
+        self.assertRaises(event_api.exceptions.RateLimitError, event_api.RundownResponse, response_json)
 
 
 if __name__ == "__main__":
