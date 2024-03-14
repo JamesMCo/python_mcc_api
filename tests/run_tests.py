@@ -81,7 +81,7 @@ class Result(unittest.TextTestResult):
                     self.job_summary.write(f"## {test_name}\n")
 
     def __del__(self):
-        if self.job_summary:
+        if "job_summary" in self.__dict__ and self.job_summary:
             self.job_summary.close()
 
 
