@@ -8,40 +8,48 @@ class Result(unittest.TextTestResult):
         super().__init__(stream, descriptions, verbosity)
         if os.getenv("GITHUB_STEP_SUMMARY"):
             self.job_summary = open(os.getenv("GITHUB_STEP_SUMMARY"), "a", encoding="utf-8")
-            self.job_summary.write(f"# Test Results (Python {'.'.join(str(n) for n in sys.version_info[:3])})\n\n")
-            self.job_summary.write("Name|Result\n-|-\n")
+            self.job_summary.write(f"# Test Results (Python {'.'.join(map(str, sys.version_info[:3]))})\n\n")
+            self.job_summary.write("👑 = `mcc_api.event`\n")
+            self.job_summary.write("🏝️ = `mcc_api.island`\n")
+            self.job_summary.write("&nbsp;|Name|Result\n-|-|-\n")
         else:
             self.job_summary = None
+
+    def getTestName(self, test):
+        name_parts = test.id().split(".")
+        match name_parts[0]:
+            case "event":  return f"👑|{name_parts[-1]}"
+            case "island": return f"🏝️|{name_parts[-1]}"
 
     def addSuccess(self, test):
         super().addSuccess(test)
         if self.job_summary:
-            self.job_summary.write(f"{self.getDescription(test).split()[0]}|✅\n")
+            self.job_summary.write(f"{self.getTestName(test)}|✅\n")
 
     def addError(self, test, err):
         super().addError(test, err)
         if self.job_summary:
-            self.job_summary.write(f"{self.getDescription(test).split()[0]}|❗\n")
+            self.job_summary.write(f"{self.getTestName(test)}|❗\n")
 
     def addFailure(self, test, err):
         super().addFailure(test, err)
         if self.job_summary:
-            self.job_summary.write(f"{self.getDescription(test).split()[0]}|❌\n")
+            self.job_summary.write(f"{self.getTestName(test)}|❌\n")
 
     def addSkip(self, test, reason):
         super().addSkip(test, reason)
         if self.job_summary:
-            self.job_summary.write(f"{self.getDescription(test).split()[0]}|↪️\n")
+            self.job_summary.write(f"{self.getTestName(test)}|↪️\n")
 
     def addExpectedFailure(self, test, err):
         super().addExpectedFailure(test, err)
         if self.job_summary:
-            self.job_summary.write(f"{self.getDescription(test).split()[0]}|✅\n")
+            self.job_summary.write(f"{self.getTestName(test)}|✅\n")
 
     def addUnexpectedSuccess(self, test):
         super().addUnexpectedSuccess(test)
         if self.job_summary:
-            self.job_summary.write(f"{self.getDescription(test).split()[0]}|❌\n")
+            self.job_summary.write(f"{self.getTestName(test)}|❌\n")
 
     def printErrors(self):
         super().printErrors()
