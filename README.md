@@ -1,5 +1,8 @@
 # Python MCC API
 
+[![🐍 PyPI](https://img.shields.io/pypi/v/mcc-api?label=🐍%20PyPI)](https://pypi.org/project/mcc-api/)
+[![👑 Targeting Event API v1.3.2](https://img.shields.io/badge/👑_Targeting_Event_API-v1.3.2-red)](https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.3.2)
+
 A wrapper for the [MC Championship API](https://api.mcchampionship.com), inspired by [derNiklaas's](https://github.com/derNiklaas) [node-mcc-api](https://github.com/derNiklaas/node-mcc-api) project.
 
 - Issues: [https://github.com/JamesMCo/python_mcc_api/issues](https://github.com/JamesMCo/python_mcc_api/issues)
