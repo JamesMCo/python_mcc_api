@@ -9,33 +9,10 @@ A wrapper for the `MC Championship API <https://api.mcchampionship.com>`_, inspi
 - PyPI: `https://pypi.org/project/mcc-api/ <https://pypi.org/project/mcc-api/>`_
 - Repository: `https://github.com/JamesMCo/python_mcc_api <https://github.com/JamesMCo/python_mcc_api>`_
 
-.. currentmodule:: mcc_api
+Documentation
+-------------
 
-Methods
--------
+.. toctree::
+   :maxdepth: 3
 
-.. automodule:: mcc_api.event
-   :members:
-
-Responses
----------
-
-.. automodule:: mcc_api.event.responses
-   :members:
-   :inherited-members:
-   :show-inheritance:
-
-Enums
------
-
-.. automodule:: mcc_api.event.enums
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Exceptions
-----------
-
-.. automodule:: mcc_api.event.exceptions
-   :members:
-   :show-inheritance:
+   event

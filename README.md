@@ -24,6 +24,11 @@ pip install --upgrade mcc-api
 
 ## Usage
 
+### Event
+
+The event library provides methods to call each of the endpoints described in the MC Championship Event API's
+[documentation](https://api.mcchampionship.com/docs).
+
 ```python
 from datetime import datetime, timezone
 from mcc_api.event import get_event, get_rundown
