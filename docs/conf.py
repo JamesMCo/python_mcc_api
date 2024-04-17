@@ -10,8 +10,15 @@ release = mcc_api.__version__
 
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary"
+    "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx"
 ]
+
+intersphinx_mapping = {
+    "gql": ("https://gql.readthedocs.io/en/stable", None),
+    "graphql": ("https://graphql-core-3.readthedocs.io/en/latest", None),
+    "python": ("https://docs.python.org/3", None)
+}
 
 exclude_patterns = []
 
