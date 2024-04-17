@@ -6,10 +6,10 @@ import typing as t
 class APIKey(AuthBase):
     key: str
 
-    def __init__(self: t.Self, key: str) -> None:
+    def __init__(self: "APIKey", key: str) -> None:
         self.key = key
 
-    def __eq__(self: t.Self, other: t.Any) -> bool:
+    def __eq__(self: "APIKey", other: t.Any) -> bool:
         if isinstance(other, str):
             return str(self) == other
         elif isinstance(other, APIKey):
@@ -17,12 +17,12 @@ class APIKey(AuthBase):
         else:
             return False
 
-    def __ne__(self: t.Self, other: t.Any) -> bool:
+    def __ne__(self: "APIKey", other: t.Any) -> bool:
         return not self == other
 
-    def __call__(self: t.Self, r: PreparedRequest) -> PreparedRequest:
+    def __call__(self: "APIKey", r: PreparedRequest) -> PreparedRequest:
         r.headers["X-API-Key"] = str(self)
         return r
 
-    def __str__(self: t.Self) -> str:
+    def __str__(self: "APIKey") -> str:
         return self.key
