@@ -16,12 +16,20 @@ class TestIslandSchemaMatches(unittest.TestCase):
             self.fail(f"Unable to retrieve MCC Island API schema: {schema_request.status_code} {schema_request.reason}")
         online_schema: graphql.GraphQLSchema = graphql.build_schema(schema_request.text)
 
-        changes = graphql.find_breaking_changes(online_schema, mcc_api.island.schema) +\
-                  graphql.find_dangerous_changes(online_schema, mcc_api.island.schema)
+        changes = [("[online => mcc_api] ", change) for change in
+                       graphql.find_breaking_changes(online_schema, mcc_api.island.schema) +
+                       graphql.find_dangerous_changes(online_schema, mcc_api.island.schema)
+                  ]
+        # Check in reverse direction
+        # (adding something in a new version can be detected as if it was removed from mcc_api.island.schema)
+        changes += [("[mcc_api => online] ", change) for change in
+                        graphql.find_breaking_changes(mcc_api.island.schema, online_schema) +
+                        graphql.find_dangerous_changes(mcc_api.island.schema, online_schema)
+                   ]
 
         self.assertEqual(
             len(changes), 0,
-            "Changes in schema found:\n" + "\n".join(f"{change.type.name}: {change.description}" for change in changes)
+            "Changes in schema found:\n" + "\n".join(f"{direction}{change.type.name}: {change.description}" for direction, change in changes)
         )
 
 
