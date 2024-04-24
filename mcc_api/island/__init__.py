@@ -17,10 +17,25 @@ schema = GraphQLSchema(
     query=query_type,
     directives=[*specified_directives, one_of_directive, spectaql_directive],
     types=[
-        collections_type, currency_type, party_type, player_type, query_type,
-        server_type, social_type, statistic_type, statistic_value_result_type,
-        statistics_type, status_type, game_enum, rank_enum, server_category_enum,
-        spectaqloption_type
+        collections_type,
+        crown_level_type,
+        currency_type,
+        party_type,
+        player_type,
+        query_type,
+        server_type,
+        social_type,
+        statistic_type,
+        statistic_value_result_type,
+        statistics_type,
+        status_type,
+        spectaqloption_type,
+        trophy_data_type,
+
+        game_enum,
+        rank_enum,
+        server_category_enum,
+        trophy_category_enum,
     ]
 )
 
