@@ -7,10 +7,21 @@ from graphql import (
 
 
 __all__ = [
-    "collections_type", "crown_level_type", "currency_type", "party_type",
-    "player_type", "query_type", "server_type", "social_type", "statistic_type",
-    "statistic_value_result_type", "statistics_type", "status_type",
-    "spectaqloption_type", "trophy_data_type"
+    "collections_type",
+    "crown_level_type",
+    "currency_type",
+    "party_type",
+    "player_type",
+    "progression_data_type",
+    "query_type",
+    "server_type",
+    "social_type",
+    "statistic_type",
+    "statistic_value_result_type",
+    "statistics_type",
+    "status_type",
+    "spectaqloption_type",
+    "trophy_data_type"
 ]
 
 
@@ -32,6 +43,14 @@ crown_level_type = GraphQLObjectType(
         "level": GraphQLField(
             GraphQLNonNull(GraphQLInt),
             description="The overall Crown Level."
+        ),
+        "nextEvolutionLevel": GraphQLField(
+            GraphQLInt,
+            description="The next level that the crown will evolve, if any."
+        ),
+        "nextLevelProgress": GraphQLField(
+            progression_data_type,
+            description="The progress the player is making towards their next level, if any."
         ),
         "trophies": GraphQLField(
             GraphQLNonNull(trophy_data_type),
@@ -135,6 +154,21 @@ player_type = GraphQLObjectType(
         "uuid": GraphQLField(
             GraphQLNonNull(uuid_scalar),
             description="The player's Minecraft UUID in dashed format."
+        )
+    }
+)
+
+progression_data_type = GraphQLObjectType(
+    name="ProgressionData",
+    description="Data for types that track some form of progression.",
+    fields={
+        "obtained": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The amount obtained."
+        ),
+        "obtainable": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The amount that can be obtained."
         )
     }
 )

@@ -22,6 +22,7 @@ schema = GraphQLSchema(
         currency_type,
         party_type,
         player_type,
+        progression_data_type,
         query_type,
         server_type,
         social_type,
