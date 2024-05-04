@@ -41,6 +41,7 @@ class Game(UpperStrEnum):
     MG_LOCKOUT_BINGO = auto()
     MG_FOOT_RACE = auto()
     MG_ROCKET_SPLEEF_OLD = auto()
+    MG_RAILROAD_RUSH = auto()
 
 
 class Team(UpperStrEnum):
