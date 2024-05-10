@@ -2,7 +2,7 @@
 
 [![🐍 PyPI](https://img.shields.io/pypi/v/mcc-api?label=🐍%20PyPI)](https://pypi.org/project/mcc-api/)
 [![👑 Targeting Event API v1.3.2](https://img.shields.io/badge/👑_Targeting_Event_API-v1.3.2-red)](https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.3.2)
-[![🏝️ Targeting Island API v24.05.02](https://img.shields.io/badge/🏝️_Targeting_Island_API-v24.05.02-aqua)](https://github.com/Noxcrew/mccisland-api/releases/tag/v24.05.02)
+[![🏝️ Targeting Island API v24.05.06](https://img.shields.io/badge/🏝️_Targeting_Island_API-v24.05.06-aqua)](https://github.com/Noxcrew/mccisland-api/releases/tag/v24.05.06)
 
 A helper library for the [MC Championship](https://mcchampionship.com) APIs
 ([Event](https://github.com/Noxcrew/mcchampionship-api), inspired by [derNiklaas's](https://github.com/derNiklaas)

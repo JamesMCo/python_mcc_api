@@ -2,7 +2,7 @@ from graphql import GraphQLEnumType, GraphQLEnumValue
 
 
 __all__ = [
-    "game_enum", "rank_enum", "server_category_enum", "trophy_category_enum"
+    "game_enum", "rank_enum", "rotation_enum", "server_category_enum", "trophy_category_enum"
 ]
 
 game_enum = GraphQLEnumType(
@@ -71,6 +71,34 @@ rank_enum = GraphQLEnumType(
         "NOXCREW": GraphQLEnumValue(
             value="NOXCREW",
             description="The Noxcrew rank."
+        )
+    }
+)
+
+rotation_enum = GraphQLEnumType(
+    name="Rotation",
+    description="A rotation period.\n\n"
+                "Each period resets at 10AM UTC.",
+    values={
+        "DAILY": GraphQLEnumValue(
+            value="DAILY",
+            description="A daily rotation that resets."
+        ),
+        "WEEKLY": GraphQLEnumValue(
+            value="WEEKLY",
+            description="A weekly rotation that resets on Tuesdays."
+        ),
+        "MONTHLY": GraphQLEnumValue(
+            value="MONTHLY",
+            description="A monthly rotation that resets on the first day of every month."
+        ),
+        "YEARLY": GraphQLEnumValue(
+            value="YEARLY",
+            description="A yearly rotation that resets on the first day of every year."
+        ),
+        "LIFETIME": GraphQLEnumValue(
+            value="LIFETIME",
+            description="A lifetime rotation; a rotation period used to indicate something never rotates."
         )
     }
 )

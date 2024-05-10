@@ -10,6 +10,7 @@ __all__ = [
     "collections_type",
     "crown_level_type",
     "currency_type",
+    "leaderboard_entry_type",
     "party_type",
     "player_type",
     "progression_data_type",
@@ -88,6 +89,27 @@ currency_type = GraphQLObjectType(
         "silver": GraphQLField(
             GraphQLNonNull(GraphQLInt),
             description="The amount of silver the player currently has."
+        )
+    }
+)
+
+leaderboard_entry_type = GraphQLObjectType(
+    name="LeaderboardEntry",
+    description="An entry in a leaderboard.",
+    fields=lambda: {
+        "player": GraphQLField(
+            player_type,
+            description="The player who has this entry.\n\n"
+                        "This will be `null` if the player does not have the statistics enabled for the API.\n"
+                        "However, for Crown Level or Trophy count leaderboards, the player will not be `null`."
+        ),
+        "rank": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The rank for this entry."
+        ),
+        "value": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The value for this entry."
         )
     }
 )
@@ -202,6 +224,37 @@ query_type = GraphQLObjectType(
         "statistics": GraphQLField(
             GraphQLNonNull(GraphQLList(GraphQLNonNull(statistic_type))),
             description="Returns a list of all known statistics."
+        ),
+        "statistic": GraphQLField(
+            statistic_type,
+            description="Returns a statistic by it's name.",
+            args={
+                "key": GraphQLArgument(
+                    GraphQLNonNull(GraphQLString)
+                )
+            }
+        ),
+        "nextRotation": GraphQLField(
+            GraphQLNonNull(datetime_scalar),
+            description="Returns when this rotation will next rotate.\n\n"
+                        "If the rotation is due the exact time this method is called, "
+                        "this method will return the next time that it will rotate.",
+            args={
+                "rotation": GraphQLArgument(
+                    GraphQLNonNull(rotation_enum)
+                )
+            }
+        ),
+        "previousRotation": GraphQLField(
+            GraphQLNonNull(datetime_scalar),
+            description="Returns when this rotation last rotated.\n\n"
+                        "If the rotation is due the exact time this method is called, "
+                        "this method will return the current time.",
+            args={
+                "rotation": GraphQLArgument(
+                    GraphQLNonNull(rotation_enum)
+                )
+            }
         )
     }
 )
@@ -251,6 +304,29 @@ statistic_type = GraphQLObjectType(
         "key": GraphQLField(
             GraphQLNonNull(GraphQLString),
             description="The key of the statistic."
+        ),
+        "leaderboard": GraphQLField(
+            GraphQLList(GraphQLNonNull(leaderboard_entry_type)),
+            description="Returns the leaderboard for this statistic in a given rotation.\n\n"
+                        "If this statistic does not generate leaderboards, "
+                        "or the statistic is not tracked for the provided rotation, this will return `null`.",
+            args={
+                "amount": GraphQLArgument(
+                    GraphQLNonNull(GraphQLInt),
+                    default_value=10
+                ),
+                "rotation": GraphQLArgument(
+                    GraphQLNonNull(rotation_enum),
+                    default_value=rotation_enum.values["LIFETIME"].value
+                )
+            }
+        ),
+        "rotations": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(rotation_enum))),
+            description="The rotations for which this statistic is tracked.\n\n"
+                        "These are the rotations that can be used to generate leaderboards or fetch rotation values.\n"
+                        "Note that the `YEARLY` rotation never generates leaderboards, "
+                        "even if it is returned in this list."
         )
     }
 )
@@ -278,6 +354,23 @@ statistics_type = GraphQLObjectType(
             statistic_value_result_type,
             description="Returns the raw value stored for this statistic.",
             args={
+                "statisticKey": GraphQLArgument(
+                    GraphQLNonNull(GraphQLString)
+                )
+            },
+            deprecation_reason="This value is not backed by a rotation and will be removed. "
+                               "Use `rotationValue` instead."
+        ),
+        "rotationValue": GraphQLField(
+            GraphQLInt,
+            description="Returns the value stored for the given statistic in a rotation.\n\n"
+                        "The returned number will be `null` if the statistic does not track in the provided rotation, "
+                        "or if the statistic doesn't exist.",
+            args={
+                "rotation": GraphQLArgument(
+                    GraphQLNonNull(rotation_enum),
+                    default_value=rotation_enum.values["LIFETIME"].value
+                ),
                 "statisticKey": GraphQLArgument(
                     GraphQLNonNull(GraphQLString)
                 )

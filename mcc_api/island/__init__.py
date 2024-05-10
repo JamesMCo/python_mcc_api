@@ -20,6 +20,7 @@ schema = GraphQLSchema(
         collections_type,
         crown_level_type,
         currency_type,
+        leaderboard_entry_type,
         party_type,
         player_type,
         progression_data_type,
@@ -35,6 +36,7 @@ schema = GraphQLSchema(
 
         game_enum,
         rank_enum,
+        rotation_enum,
         server_category_enum,
         trophy_category_enum,
     ]
