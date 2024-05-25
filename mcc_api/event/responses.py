@@ -304,6 +304,8 @@ class Creator:
     """The Minecraft UUID of the participant."""
     stream: str
     """The streaming URL of the participant."""
+    icon: str
+    """The URL of the icon of the participant."""
 
 
 class ParticipantsResponse(BaseResponse):
@@ -319,7 +321,8 @@ class ParticipantsResponse(BaseResponse):
         self.data = {Team[team]: [Creator(
             username=creator["username"],
             uuid=creator["uuid"],
-            stream=creator["stream"]
+            stream=creator["stream"],
+            icon=creator["icon"]
         ) for creator in participants] for team, participants in data["data"].items()}
 
 
@@ -340,6 +343,7 @@ class ParticipantsTeamResponse(BaseResponse):
             Creator(
                 username=creator["username"],
                 uuid=creator["uuid"],
-                stream=creator["stream"]
+                stream=creator["stream"],
+                icon=creator["icon"]
             ) for creator in data["data"]
         ]
