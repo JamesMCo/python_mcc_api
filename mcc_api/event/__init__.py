@@ -5,6 +5,7 @@ from .enums import (
 )
 from .responses import (
     EventInformationResponse,
+    EventsResponse,
     HallOfFameGameResponse,
     HallOfFameResponse,
     ParticipantsResponse,
@@ -18,6 +19,7 @@ import warnings
 
 __all__ = [
     "get_event",
+    "get_events",
     "get_hall_of_fame",
     "get_rundown",
     "get_participants",
@@ -53,6 +55,17 @@ def get_event(*, timeout: int = 5) -> EventInformationResponse:
       `timeout` parameter and defaulting to 5.
     """
     return EventInformationResponse(__request("event", timeout))
+
+
+def get_events(*, timeout: int = 5) -> EventsResponse:
+    """Get all event keys currently made available by the API.
+
+    - Calls the `/events <https://api.mcchampionship.com/docs/#/v1/AppController_getEventKeys>_ endpoint.
+    - Returns an :class:`mcc_api.EventsResponse` containing all available event keys.
+    - May raise a :class:`requests.Timeout` exception, with the number of seconds before timing out specified by the
+    `timeout` parameter and defaulting to 5.
+    """
+    return EventsResponse(__request("events", timeout))
 
 
 @t.overload

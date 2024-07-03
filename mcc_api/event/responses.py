@@ -69,6 +69,19 @@ class EventInformationResponse(BaseResponse):
         )
 
 
+class EventsResponse(BaseResponse):
+    """Response object containing all available event keys."""
+
+    data: list[str]
+    """List of all event keys currently made available by the API."""
+
+    def __init__(self: "EventsResponse", request: requests.Response | dict[str, t.Any]) -> None:
+        data: dict[str, t.Any] = self._extract_json_data(request)
+        super().__init__(data)
+
+        self.data = data["data"]
+
+
 @dataclass(frozen=True, slots=True)
 class HallOfFameRecord:
     """A single record from the Hall of Fame.
