@@ -5,25 +5,29 @@
             "username": "DarkEyebrows",
             "uuid": "e6b20ce1baf94891b0b201af0a14ccc6",
             "stream": "https://twitch.tv/DarkEyebrows",
-            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/c2b17bd3-85bb-4b2e-acc2-6f79fdaafae1-profile_image-50x50.png?u=1"
+            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/c2b17bd3-85bb-4b2e-acc2-6f79fdaafae1-profile_image-50x50.png?u=1",
+            "team": "RED"
         },
         {
             "username": "Purpled",
             "uuid": "1218cdf352bd4e18ba24d4b202ec85f3",
             "stream": "https://twitch.tv/purpled",
-            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/5bdb1998-3fe5-4cbb-b764-7accf7f2edc8-profile_image-50x50.png?u=1"
+            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/5bdb1998-3fe5-4cbb-b764-7accf7f2edc8-profile_image-50x50.png?u=1",
+            "team": "RED"
         },
         {
             "username": "The_Eret",
             "uuid": "de56a5270ea24202aeafc73f23871ebd",
             "stream": "https://twitch.tv/eret",
-            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/8c6170a1-b321-4646-95fb-dc8644faffb0-profile_image-50x50.png?u=1"
+            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/8c6170a1-b321-4646-95fb-dc8644faffb0-profile_image-50x50.png?u=1",
+            "team": "RED"
         },
         {
             "username": "avakristyson",
             "uuid": "96e1626019804c04892f7b57c799904e",
             "stream": "https://twitch.tv/avakristyson",
-            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/67a77d6c-b857-4e0c-bc72-bb9daffe052e-profile_image-50x50.png?u=1"
+            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/67a77d6c-b857-4e0c-bc72-bb9daffe052e-profile_image-50x50.png?u=1",
+            "team": "RED"
         }
     ]
 }

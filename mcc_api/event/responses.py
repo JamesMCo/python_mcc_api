@@ -319,6 +319,8 @@ class Creator:
     """The streaming URL of the participant."""
     icon: str
     """The URL of the icon of the participant."""
+    team: Team
+    """The team of the participant."""
 
 
 class ParticipantsResponse(BaseResponse):
@@ -335,7 +337,8 @@ class ParticipantsResponse(BaseResponse):
             username=creator["username"],
             uuid=creator["uuid"],
             stream=creator["stream"],
-            icon=creator["icon"]
+            icon=creator["icon"],
+            team=Team(creator["team"])
         ) for creator in participants] for team, participants in data["data"].items()}
 
 
@@ -357,6 +360,7 @@ class ParticipantsTeamResponse(BaseResponse):
                 username=creator["username"],
                 uuid=creator["uuid"],
                 stream=creator["stream"],
-                icon=creator["icon"]
+                icon=creator["icon"],
+                team=Team(creator["team"])
             ) for creator in data["data"]
         ]
