@@ -8,6 +8,7 @@ from .responses import (
     EventsResponse,
     HallOfFameGameResponse,
     HallOfFameResponse,
+    ParticipantResponse,
     ParticipantsResponse,
     ParticipantsTeamResponse,
     RundownResponse
@@ -127,6 +128,20 @@ def get_rundown(event: t.Optional[str] = None, *, timeout: int = 5) -> RundownRe
         return RundownResponse(__request(f"rundown/{event}", timeout))
     else:
         return RundownResponse(__request("rundown", timeout))
+
+
+def get_participant(uuid: str, *, timeout: int = 5) -> ParticipantResponse:
+    """Get an individual participant in the current event cycle by their Minecraft UUID.
+
+    - Accepts both dashed (e.g. 3e7a89ee-c4e2-4392-a317-444b861b0794) and un-dashed
+      (e.g. 3e7a89eec4e24392a317444b861b0794) UUIDs
+    - Calls the `/participant <https://api.mcchampionship.com/docs/#/v1/AppController_getParticipant>`_ endpoint.
+    - Returns an :class:`mcc_api.ParticipantResponse` representing the individual participant in the current event
+      cycle's event.
+    - May raise a :class:`requests.Timeout` exception, with the number of seconds before timing out specified by the
+      `timeout` parameter and defaulting to 5.
+    """
+    return ParticipantResponse(__request(f"participant/{uuid}", timeout))
 
 
 @t.overload

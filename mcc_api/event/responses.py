@@ -1,4 +1,4 @@
-from .exceptions import InvalidEventError, InvalidGameError, InvalidTeamError, RateLimitError
+from .exceptions import InvalidEventError, InvalidGameError, InvalidParticipantError, InvalidTeamError, RateLimitError
 from .enums import Game, Team
 from dataclasses import dataclass
 from datetime import datetime
@@ -321,6 +321,27 @@ class Creator:
     """The URL of the icon of the participant."""
     team: Team
     """The team of the participant."""
+
+
+class ParticipantResponse(BaseResponse):
+    """Response object representing an individual participant in the current event cycle."""
+
+    data: Creator
+
+    def __init__(self: "ParticipantResponse", request: requests.Response | dict[str, t.Any]) -> None:
+        data: dict[str, t.Any] = super()._extract_json_data(request)
+        super().__init__(data)
+
+        if self.code == 404:
+            raise InvalidParticipantError(self.code, self.reason)
+
+        self.data = Creator(
+            username=data["data"]["username"],
+            uuid=data["data"]["uuid"],
+            stream=data["data"]["stream"],
+            icon=data["data"]["icon"],
+            team=Team(data["data"]["team"])
+        )
 
 
 class ParticipantsResponse(BaseResponse):

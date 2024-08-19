@@ -26,6 +26,10 @@ class InvalidGameError(MCCAPIError):
     pass
 
 
+class InvalidParticipantError(MCCAPIError):
+    """Exception raised when the requested participant does not exist."""
+    pass
+
 class InvalidTeamError(MCCAPIError):
     """Exception raised when the requested team does not exist."""
     pass
