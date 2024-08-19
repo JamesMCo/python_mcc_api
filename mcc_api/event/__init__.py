@@ -23,6 +23,7 @@ __all__ = [
     "get_events",
     "get_hall_of_fame",
     "get_rundown",
+    "get_participant",
     "get_participants",
 
     "enums",
