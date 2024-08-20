@@ -6,6 +6,7 @@
         "uuid": "3e7a89eec4e24392a317444b861b0794",
         "stream": "https://twitch.tv/thenoxcrew",
         "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/a5ba63c7-923b-460c-87b0-1917e7a95ab9-profile_image-50x50.png?u=1",
-        "team": "SPECTATORS"
+        "team": "SPECTATORS",
+        "platform": "twitch"
     }
 }
