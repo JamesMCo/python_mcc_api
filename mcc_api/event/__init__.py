@@ -35,11 +35,11 @@ __base_url: t.Final[str] = "https://api.mcchampionship.com/v1"
 
 
 @ratelimit.sleep_and_retry
-@ratelimit.limits(calls=40, period=60)
+@ratelimit.limits(calls=200, period=60)
 def __request(endpoint: str, timeout: int) -> requests.Response:
     """Make and return a request to the given endpoint of the MCC API.
     
-    Limited to 40 calls per minute, and will sleep until the rate limit resets if exceeded.
+    Limited to 200 calls per minute, and will sleep until the rate limit resets if exceeded.
     Timeout parameter is passed to requests module directly."""
     return requests.get(
         f"{__base_url.rstrip('/')}/{endpoint}",

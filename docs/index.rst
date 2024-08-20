@@ -4,9 +4,9 @@ python_mcc_api
 .. image:: https://img.shields.io/pypi/v/mcc-api?label=🐍%20PyPI
    :alt: 🐍 PyPI
    :target: https://pypi.org/project/mcc-api/
-.. image:: https://img.shields.io/badge/👑_Targeting_Event_API-v1.5.0-red
-   :alt: 👑 Targeting Event API v1.5.0
-   :target: https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.5.0
+.. image:: https://img.shields.io/badge/👑_Targeting_Event_API-v1.6.0-red
+   :alt: 👑 Targeting Event API v1.6.0
+   :target: https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.6.0
 .. image:: https://img.shields.io/badge/🏝️_Targeting_Island_API-v24.05.06-aqua
    :alt: 🏝️ Targeting Island API v24.05.06
    :target: https://github.com/Noxcrew/mccisland-api/releases/tag/v24.05.06
