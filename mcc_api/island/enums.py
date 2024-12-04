@@ -130,6 +130,10 @@ trophy_category_enum = GraphQLEnumType(
     name="TrophyCategory",
     description="The categories for trophies.",
     values={
+        "ANGLER": GraphQLEnumValue(
+            value="ANGLER",
+            description="Angler trophies."
+        ),
         "SKILL": GraphQLEnumValue(
             value="SKILL",
             description="Skill trophies."

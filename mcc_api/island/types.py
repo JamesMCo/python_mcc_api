@@ -41,6 +41,10 @@ crown_level_type = GraphQLObjectType(
     name="CrownLevel",
     description="A Crown Level and associated trophy data.",
     fields=lambda: {
+        "evolution": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The zero-indexed evolution of the crown."
+        ),
         "level": GraphQLField(
             GraphQLNonNull(GraphQLInt),
             description="The overall Crown Level."
