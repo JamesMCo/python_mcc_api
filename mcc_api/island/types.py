@@ -8,9 +8,16 @@ from graphql import (
 
 __all__ = [
     "collections_type",
+    "cosmetic_type",
+    "cosmetic_ownership_state_type",
     "crown_level_type",
     "currency_type",
+    "fish_type",
+    "fish_caught_weight_type",
+    "fish_record_type",
     "leaderboard_entry_type",
+    "level_data_type",
+    "mcc_plus_status_type",
     "party_type",
     "player_type",
     "progression_data_type",
@@ -25,14 +32,109 @@ __all__ = [
     "trophy_data_type"
 ]
 
+from .scalars import date_scalar
 
 collections_type = GraphQLObjectType(
     name="Collections",
     description="Collections data.",
     fields=lambda: {
+        "cosmetics": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(cosmetic_ownership_state_type))),
+            description="Returns the ownership state of all cosmetics, optionally in a category and/or collection.",
+            args={
+                "category": GraphQLArgument(
+                    cosmetic_category_enum,
+                    default_value=None
+                ),
+                "collection": GraphQLArgument(
+                    GraphQLString,
+                    default_value=None
+                )
+            }
+        ),
         "currency": GraphQLField(
             GraphQLNonNull(currency_type),
             description="The player's earned currency."
+        ),
+        "equippedCosmetics": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(cosmetic_type))),
+            description="A list of cosmetics the player currently has equipped."
+        ),
+        "fish": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(fish_record_type))),
+            description="Returns the record data for all fish, optionally in a specific collection.",
+            args={
+                "collection": GraphQLArgument(
+                    GraphQLString,
+                    default_value=None
+                )
+            }
+        )
+    }
+)
+
+cosmetic_type = GraphQLObjectType(
+    name="Cosmetic",
+    description="A cosmetic.",
+    fields={
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of the cosmetic."
+        ),
+        "canBeDonated": GraphQLField(
+            GraphQLNonNull(GraphQLBoolean),
+            description="If this cosmetic can be donated for Royal Reputation."
+        ),
+        "category": GraphQLField(
+            GraphQLNonNull(cosmetic_category_enum),
+            description="The category the cosmetic is in."
+        ),
+        "collection": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The collection this cosmetic is in."
+        ),
+        "colorable": GraphQLField(
+            GraphQLNonNull(GraphQLBoolean),
+            description="If this cosmetic can be colored using Chroma Packs."
+        ),
+        "isBonusTrophies": GraphQLField(
+            GraphQLBoolean,
+            description="If this cosmetic awards bonus trophies.\n\n"
+                        "This will be `null` if the cosmetic does not award any trophies."
+        ),
+        "rarity": GraphQLField(
+            GraphQLNonNull(rarity_enum),
+            description="The rarity of the cosmetic."
+        ),
+        "trophies": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The number of trophies this cosmetic awards.\n\n"
+                        "Note that this does not include the completion bonus for applying all "
+                        "Chroma Packs to the cosmetic."
+        )
+    }
+)
+
+cosmetic_ownership_state_type = GraphQLObjectType(
+    name="CosmeticOwnershipState",
+    description="The ownership state of a cosmetic.",
+    fields={
+        "chromaPacks": GraphQLField(
+            GraphQLList(GraphQLNonNull(GraphQLString)),
+            description="The Chroma Packs that have applied to this cosmetic, if it is colorable."
+        ),
+        "cosmetic": GraphQLField(
+            GraphQLNonNull(cosmetic_type),
+            description="The cosmetic in question."
+        ),
+        "donationsMade": GraphQLField(
+            GraphQLInt,
+            description="The number of Royal Reputation donations that have been made of this cosmetic, "
+                        "if it can be donated."
+        ),
+        "owned": GraphQLField(
+            GraphQLNonNull(GraphQLBoolean),
+            description="If the cosmetic is owned."
         )
     }
 )
@@ -43,19 +145,31 @@ crown_level_type = GraphQLObjectType(
     fields=lambda: {
         "evolution": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The zero-indexed evolution of the crown."
+            description="The zero-indexed evolution of the crown.",
+            deprecation_reason="Use levelData instead."
+        ),
+        "fishingLevelData": GraphQLField(
+            GraphQLNonNull(level_data_type),
+            description="The fishing level data."
         ),
         "level": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The overall Crown Level."
+            description="The overall Crown Level.",
+            deprecation_reason="Use levelData instead."
+        ),
+        "levelData": GraphQLField(
+            GraphQLNonNull(level_data_type),
+            description="The overall level data."
         ),
         "nextEvolutionLevel": GraphQLField(
             GraphQLInt,
-            description="The next level that the crown will evolve, if any."
+            description="The next level that the crown will evolve, if any.",
+            deprecation_reason="Use levelData instead."
         ),
         "nextLevelProgress": GraphQLField(
             progression_data_type,
-            description="The progress the player is making towards their next level, if any."
+            description="The progress the player is making towards their next level, if any.",
+            deprecation_reason="Use levelData instead."
         ),
         "trophies": GraphQLField(
             GraphQLNonNull(trophy_data_type),
@@ -74,25 +188,100 @@ currency_type = GraphQLObjectType(
     name="Currency",
     description="A player's earned currency.",
     fields={
+        "anglrTokens": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The number of A.N.G.L.R. Tokens the player currently has."
+        ),
         "coins": GraphQLField(
             GraphQLNonNull(GraphQLInt),
             description="The number of coins the player currently has."
         ),
         "gems": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The number of gems the player currently has."
+            description="The number of gems the player currently has.",
+            deprecation_reason="Deprecated for removal. Will always return 0 until removal."
         ),
         "materialDust": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The amount of material dust the player currently has."
+            description="The number of material dust the player currently has."
         ),
         "royalReputation": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The amount of Royal Reputation the player currently has."
+            description="The number of Royal Reputation the player currently has."
         ),
         "silver": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The amount of silver the player currently has."
+            description="The number of silver the player currently has."
+        )
+    }
+)
+
+fish_type = GraphQLObjectType(
+    name="Fish",
+    description="A fish.",
+    fields={
+        "catchTime": GraphQLField(
+            GraphQLNonNull(fish_catch_time_enum),
+            description="The time this fish can be caught."
+        ),
+        "climate": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The climate this fish can be found in."
+        ),
+        "collection": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The collection this fish can be found in."
+        ),
+        "elusive": GraphQLField(
+            GraphQLNonNull(GraphQLBoolean),
+            description="If this fish is elusive."
+        ),
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of the fish."
+        ),
+        "rarity": GraphQLField(
+            GraphQLNonNull(rarity_enum),
+            description="The rarity of the fish."
+        ),
+        "trophies": GraphQLField(
+            GraphQLInt,
+            description="The number of trophies awarded for catching this fish in a given weight.",
+            args={
+                "weight": GraphQLArgument(
+                    GraphQLNonNull(fish_weight_enum)
+                )
+            }
+        )
+    }
+)
+
+fish_caught_weight_type = GraphQLObjectType(
+    name="FishCaughtWeight",
+    description="Data about a caught fish weight.",
+    fields={
+        "firstCaught": GraphQLField(
+            GraphQLNonNull(date_scalar),
+            description="When the player first caught this weight."
+        ),
+        "weight": GraphQLField(
+            GraphQLNonNull(fish_weight_enum),
+            description="The weight that was caught."
+        )
+    }
+)
+
+fish_record_type = GraphQLObjectType(
+    name="FishRecord",
+    description="A record of the weight of fish that have been caught.",
+    fields={
+        "fish": GraphQLField(
+            GraphQLNonNull(fish_type),
+            description="The fish this record is for."
+        ),
+        "weights": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(fish_caught_weight_type))),
+            description="A list of data about the weights that have been caught."
         )
     }
 )
@@ -114,6 +303,48 @@ leaderboard_entry_type = GraphQLObjectType(
         "value": GraphQLField(
             GraphQLNonNull(GraphQLInt),
             description="The value for this entry."
+        )
+    }
+)
+
+level_data_type = GraphQLObjectType(
+    name="LevelData",
+    description="Data relating to a level.",
+    fields=lambda: {
+        "evolution": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The zero-indexed evolution of the level.",
+        ),
+        "level": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The overall level."
+        ),
+        "nextEvolutionLevel": GraphQLField(
+            GraphQLInt,
+            description="The next level that will have an evolution, if any."
+        ),
+        "nextLevelProgress": GraphQLField(
+            progression_data_type,
+            description="The progress the player is making towards their next level, if any."
+        )
+    }
+)
+
+mcc_plus_status_type = GraphQLObjectType(
+    name="MCCPlusStatus",
+    description="The status of a player's MCC+ subscription.",
+    fields={
+        "evolution": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The current evolution index for MCC+ icon."
+        ),
+        "streakStart": GraphQLField(
+            GraphQLNonNull(datetime_scalar),
+            description="The instant they started their current streak."
+        ),
+        "totalDays": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The total number of days they have been subscribed for."
         )
     }
 )
@@ -150,6 +381,10 @@ player_type = GraphQLObjectType(
         "crownLevel": GraphQLField(
             GraphQLNonNull(crown_level_type),
             description="The player's Crown Level and associated trophy data."
+        ),
+        "mccPlusStatus": GraphQLField(
+            mcc_plus_status_type,
+            description="The player's MCC+ status, if currently subscribed."
         ),
         "ranks": GraphQLField(
             GraphQLNonNull(GraphQLList(GraphQLNonNull(rank_enum))),
@@ -354,17 +589,6 @@ statistics_type = GraphQLObjectType(
     name="Statistics",
     description="Statistic-related data.",
     fields={
-        "value": GraphQLField(
-            statistic_value_result_type,
-            description="Returns the raw value stored for this statistic.",
-            args={
-                "statisticKey": GraphQLArgument(
-                    GraphQLNonNull(GraphQLString)
-                )
-            },
-            deprecation_reason="This value is not backed by a rotation and will be removed. "
-                               "Use `rotationValue` instead."
-        ),
         "rotationValue": GraphQLField(
             GraphQLInt,
             description="Returns the value stored for the given statistic in a rotation.\n\n"

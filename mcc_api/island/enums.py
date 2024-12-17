@@ -2,8 +2,101 @@ from graphql import GraphQLEnumType, GraphQLEnumValue
 
 
 __all__ = [
-    "game_enum", "rank_enum", "rotation_enum", "server_category_enum", "trophy_category_enum"
+    "cosmetic_category_enum",
+    "fish_catch_time_enum",
+    "fish_weight_enum",
+    "game_enum",
+    "rank_enum",
+    "rarity_enum",
+    "rotation_enum",
+    "server_category_enum",
+    "trophy_category_enum"
 ]
+
+cosmetic_category_enum = GraphQLEnumType(
+    name="CosmeticCategory",
+    description="Different categories of cosmetics.",
+    values={
+        "ACCESSORY": GraphQLEnumValue(
+            value="ACCESSORY",
+            description="Accessories."
+        ),
+        "AURA": GraphQLEnumValue(
+            value="AURA",
+            description="Auras."
+        ),
+        "CLOAK": GraphQLEnumValue(
+            value="CLOAK",
+            description="Cloaks."
+        ),
+        "HAIR": GraphQLEnumValue(
+            value="HAIR",
+            description="Hair."
+        ),
+        "HAT": GraphQLEnumValue(
+            value="HAT",
+            description="Hats."
+        ),
+        "ROD": GraphQLEnumValue(
+            value="ROD",
+            description="Fishing rods."
+        ),
+        "TRAIL": GraphQLEnumValue(
+            value="TRAIL",
+            description="Trails."
+        )
+    }
+)
+
+fish_catch_time_enum = GraphQLEnumType(
+    name="FishCatchTime",
+    description="The time a fish can be caught in.",
+    values={
+        "ALWAYS": GraphQLEnumValue(
+            value="ALWAYS",
+            description="The fish can always be caught."
+        ),
+        "DAY": GraphQLEnumValue(
+            value="DAY",
+            description="The fish can only be caught during daytime."
+        ),
+        "NIGHT": GraphQLEnumValue(
+            value="NIGHT",
+            description="The fish can only be caught during nighttime."
+        )
+    }
+)
+
+fish_weight_enum = GraphQLEnumType(
+    name="FishWeight",
+    description="The weight of a fish.\n\n"
+                "Note that some weights are not used for crabs, or are only used for crabs.",
+    values={
+        "AVERAGE": GraphQLEnumValue(
+            value="AVERAGE",
+            description="Average."
+        ),
+        "COLOSSAL": GraphQLEnumValue(
+            value="COLOSSAL",
+            description="Colossal.\n\n"
+                        "This weight is only used for crabs."
+        ),
+        "GARGANTUAN": GraphQLEnumValue(
+            value="GARGANTUAN",
+            description="Gargantuan.\n\n"
+                        "This weight is not used for crabs."
+        ),
+        "LARGE": GraphQLEnumValue(
+            value="LARGE",
+            description="Large."
+        ),
+        "MASSIVE": GraphQLEnumValue(
+            value="MASSIVE",
+            description="Massive.\n\n"
+                        "This weight is not used for crabs."
+        )
+    }
+)
 
 game_enum = GraphQLEnumType(
     name="Game",
@@ -71,6 +164,37 @@ rank_enum = GraphQLEnumType(
         "NOXCREW": GraphQLEnumValue(
             value="NOXCREW",
             description="The Noxcrew rank."
+        )
+    }
+)
+
+rarity_enum = GraphQLEnumType(
+    name="Rarity",
+    description="Different tiers of rarity.",
+    values={
+        "COMMON": GraphQLEnumValue(
+            value="COMMON",
+            description="Common."
+        ),
+        "EPIC": GraphQLEnumValue(
+            value="EPIC",
+            description="Epic."
+        ),
+        "LEGENDARY": GraphQLEnumValue(
+            value="LEGENDARY",
+            description="Legendary."
+        ),
+        "MYTHIC": GraphQLEnumValue(
+            value="MYTHIC",
+            description="Mythic."
+        ),
+        "RARE": GraphQLEnumValue(
+            value="RARE",
+            description="Rare."
+        ),
+        "UNCOMMON": GraphQLEnumValue(
+            value="UNCOMMON",
+            description="Uncommon."
         )
     }
 )

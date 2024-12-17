@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from graphql import GraphQLScalarType, ValueNode
 from graphql.utilities import value_from_ast_untyped
 from uuid import UUID
@@ -6,8 +6,34 @@ import typing as t
 
 
 __all__ = [
-    "datetime_scalar", "uuid_scalar"
+    "date_scalar", "datetime_scalar", "uuid_scalar"
 ]
+
+
+# Date scalar based on datetime example in gql library documentation
+# https://gql.readthedocs.io/en/latest/usage/custom_scalars_and_enums.html
+
+def date_serialize(value: date) -> str:
+    return value.isoformat()
+
+
+def date_parse_value(value: str) -> date:
+    return date.fromisoformat(value)
+
+
+def date_parse_literal(value_node: ValueNode, variables: t.Optional[dict[str, t.Any]] = None) -> date:
+    ast_value = value_from_ast_untyped(value_node, variables)
+    return date_parse_value(ast_value)
+
+
+date_scalar = GraphQLScalarType(
+    name="Date",
+    description="An RFC-3339 compliant Full Date Scalar",
+    specified_by_url="https://tools.ietf.org/html/rfc3339",
+    serialize=date_serialize,
+    parse_value=date_parse_value,
+    parse_literal=date_parse_literal
+)
 
 
 # Datetime scalar from example in gql library documentation
