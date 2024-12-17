@@ -58,7 +58,7 @@ Queries can be executed by passing the result of :external:py:func:`gql.gql` obj
 the schema before being sent to the API, raising a
 :external:py:class:`graphql.GraphQLError <graphql.error.graphql_error.GraphQLError>` if not. The returned data will be a
 Python dictionary whose structure matches that of the query. Data returned as a UUID, a Date, or a DateTime will be
-resolved as a :external:py:class:`UUID <.uuid.UUID>`, a :external:py:class:`date <.datetime.date>, or a
+resolved as a :external:py:class:`UUID <.uuid.UUID>`, a :external:py:class:`date <.datetime.date>`, or a
 :external:py:class:`datetime <.datetime.datetime>` object respectively. Some data may not be present if the user being
 queried has kept some of their data private to the API.
 
