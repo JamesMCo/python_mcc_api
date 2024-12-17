@@ -57,9 +57,10 @@ Queries can be executed by passing the result of :external:py:func:`gql.gql` obj
 :external:py:meth:`client.execute() <gql.client.Client.execute>`. Queries are verified to be valid using according to
 the schema before being sent to the API, raising a
 :external:py:class:`graphql.GraphQLError <graphql.error.graphql_error.GraphQLError>` if not. The returned data will be a
-Python dictionary whose structure matches that of the query. Data returned as a UUID or a DateTime will be resolved as a
-:external:py:class:`UUID <.uuid.UUID>` or a :external:py:class:`datetime <.datetime.datetime>` object
-respectively. Some data may not be present if the user being queried has kept some of their data private to the API.
+Python dictionary whose structure matches that of the query. Data returned as a UUID, a Date, or a DateTime will be
+resolved as a :external:py:class:`UUID <.uuid.UUID>`, a :external:py:class:`date <.datetime.date>, or a
+:external:py:class:`datetime <.datetime.datetime>` object respectively. Some data may not be present if the user being
+queried has kept some of their data private to the API.
 
 .. note::
     All API settings (collections, social, statistics, and status) are opt-in, and so all related data will be
