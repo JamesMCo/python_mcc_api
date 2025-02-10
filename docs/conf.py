@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath('..'))
 import mcc_api
 
 project = "python_mcc_api"
-copyright = "2023-2024 James C"
+copyright = "2023-2025 James C"
 author = "James C"
 release = mcc_api.__version__
 
