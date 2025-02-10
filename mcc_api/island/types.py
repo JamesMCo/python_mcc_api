@@ -97,6 +97,15 @@ cosmetic_type = GraphQLObjectType(
             GraphQLNonNull(GraphQLBoolean),
             description="If this cosmetic can be colored using Chroma Packs."
         ),
+        "globalNumberOwned": GraphQLField(
+            GraphQLString,
+            description="The number of people who own this cosmetic.\n\n"
+                        "The exact number is only displayed if fewer than 1000 players own this cosmetic.\n"
+                        "Otherwise, either `1000+` or `10000+` will be returned, indicating the real value is higher "
+                        "than this number.\n"
+                        "Some cosmetics are excluded from ownership reporting, for these cosmetics `null` will be "
+                        "returned."
+        ),
         "isBonusTrophies": GraphQLField(
             GraphQLBoolean,
             description="If this cosmetic awards bonus trophies.\n\n"
@@ -143,33 +152,13 @@ crown_level_type = GraphQLObjectType(
     name="CrownLevel",
     description="A Crown Level and associated trophy data.",
     fields=lambda: {
-        "evolution": GraphQLField(
-            GraphQLNonNull(GraphQLInt),
-            description="The zero-indexed evolution of the crown.",
-            deprecation_reason="Use levelData instead."
-        ),
         "fishingLevelData": GraphQLField(
             GraphQLNonNull(level_data_type),
             description="The fishing level data."
         ),
-        "level": GraphQLField(
-            GraphQLNonNull(GraphQLInt),
-            description="The overall Crown Level.",
-            deprecation_reason="Use levelData instead."
-        ),
         "levelData": GraphQLField(
             GraphQLNonNull(level_data_type),
             description="The overall level data."
-        ),
-        "nextEvolutionLevel": GraphQLField(
-            GraphQLInt,
-            description="The next level that the crown will evolve, if any.",
-            deprecation_reason="Use levelData instead."
-        ),
-        "nextLevelProgress": GraphQLField(
-            progression_data_type,
-            description="The progress the player is making towards their next level, if any.",
-            deprecation_reason="Use levelData instead."
         ),
         "trophies": GraphQLField(
             GraphQLNonNull(trophy_data_type),
@@ -196,11 +185,6 @@ currency_type = GraphQLObjectType(
             GraphQLNonNull(GraphQLInt),
             description="The number of coins the player currently has."
         ),
-        "gems": GraphQLField(
-            GraphQLNonNull(GraphQLInt),
-            description="The number of gems the player currently has.",
-            deprecation_reason="Deprecated for removal. Will always return 0 until removal."
-        ),
         "materialDust": GraphQLField(
             GraphQLNonNull(GraphQLInt),
             description="The number of material dust the player currently has."
@@ -218,7 +202,9 @@ currency_type = GraphQLObjectType(
 
 fish_type = GraphQLObjectType(
     name="Fish",
-    description="A fish.",
+    description="A fish.\n\n"
+                "Queries on this type that accept a weight as an argument will return `null` if this fish does not "
+                "support the provided weight.",
     fields={
         "catchTime": GraphQLField(
             GraphQLNonNull(fish_catch_time_enum),
@@ -236,6 +222,18 @@ fish_type = GraphQLObjectType(
             GraphQLNonNull(GraphQLBoolean),
             description="If this fish is elusive."
         ),
+        "globalNumberCaught": GraphQLField(
+            GraphQLString,
+            description="The number of people who have caught this fish.\n\n"
+                        "The exact number is only displayed if fewer than 1000 players have caught this fish.\n"
+                        "Otherwise, either `1000+` or `10000+` will be returned, indicating the real value is higher "
+                        "than this number.",
+            args={
+                "weight": GraphQLArgument(
+                    GraphQLNonNull(fish_weight_enum)
+                )
+            }
+        ),
         "name": GraphQLField(
             GraphQLNonNull(GraphQLString),
             description="The name of the fish."
@@ -247,6 +245,15 @@ fish_type = GraphQLObjectType(
         "trophies": GraphQLField(
             GraphQLInt,
             description="The number of trophies awarded for catching this fish in a given weight.",
+            args={
+                "weight": GraphQLArgument(
+                    GraphQLNonNull(fish_weight_enum)
+                )
+            }
+        ),
+        "sellingPrice": GraphQLField(
+            GraphQLInt,
+            description="The number of A.N.G.L.R. Tokens given for selling this fish in a given weight.",
             args={
                 "weight": GraphQLArgument(
                     GraphQLNonNull(fish_weight_enum)
