@@ -108,7 +108,7 @@ game_enum = GraphQLEnumType(
         ),
         "DYNABALL": GraphQLEnumValue(
             value="DYNABALL",
-            description="Dynaball"
+            description="Dynaball."
         ),
         "HOLE_IN_THE_WALL": GraphQLEnumValue(
             value="HOLE_IN_THE_WALL",
@@ -116,15 +116,15 @@ game_enum = GraphQLEnumType(
         ),
         "PARKOUR_WARRIOR": GraphQLEnumValue(
             value="PARKOUR_WARRIOR",
-            description="Parkour Warrior"
+            description="Parkour Warrior."
         ),
         "ROCKET_SPLEEF": GraphQLEnumValue(
             value="ROCKET_SPLEEF",
-            description="Rocket Spleef"
+            description="Rocket Spleef."
         ),
         "SKY_BATTLE": GraphQLEnumValue(
             value="SKY_BATTLE",
-            description="Sky Battle"
+            description="Sky Battle."
         ),
         "TGTTOS": GraphQLEnumValue(
             value="TGTTOS",
