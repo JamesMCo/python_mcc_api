@@ -97,6 +97,10 @@ cosmetic_type = GraphQLObjectType(
             GraphQLNonNull(GraphQLBoolean),
             description="If this cosmetic can be colored using Chroma Packs."
         ),
+        "description": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The description of the cosmetic."
+        ),
         "globalNumberOwned": GraphQLField(
             GraphQLString,
             description="The number of people who own this cosmetic.\n\n"
