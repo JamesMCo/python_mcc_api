@@ -22,6 +22,7 @@ __all__ = [
     "player_type",
     "progression_data_type",
     "query_type",
+    "royal_reputation_type",
     "server_type",
     "social_type",
     "statistic_type",
@@ -76,7 +77,7 @@ collections_type = GraphQLObjectType(
 cosmetic_type = GraphQLObjectType(
     name="Cosmetic",
     description="A cosmetic.",
-    fields={
+    fields=lambda: {
         "name": GraphQLField(
             GraphQLNonNull(GraphQLString),
             description="The name of the cosmetic."
@@ -118,6 +119,11 @@ cosmetic_type = GraphQLObjectType(
         "rarity": GraphQLField(
             GraphQLNonNull(rarity_enum),
             description="The rarity of the cosmetic."
+        ),
+        "royalReputation": GraphQLField(
+            royal_reputation_type,
+            description="Information about the Royal Reputation this cosmetic provides.\n\n"
+                        "This will be `null` if the cosmetic cannot be donated."
         ),
         "trophies": GraphQLField(
             GraphQLNonNull(GraphQLInt),
@@ -505,6 +511,21 @@ query_type = GraphQLObjectType(
                     GraphQLNonNull(rotation_enum)
                 )
             }
+        )
+    }
+)
+
+royal_reputation_type = GraphQLObjectType(
+    name="RoyalReputation",
+    description="Information about the Royal Reputation for a cosmetic.",
+    fields={
+        "donationLimit": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The maximum number of donations that can be made for this cosmetic."
+        ),
+        "reputationAmount": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The amount of reputation that each donation provides."
         )
     }
 )
