@@ -7,7 +7,7 @@ name = "mcc-api"
 authors = [
     { name="James C.", email="james@cordon.click" }
 ]
-description = "Wrapper for the MC Championship API"
+description = "Wrapper for the MC Championship APIs (Event and Island)"
 readme = "README.md"
 requires-python = ">= 3.10"
 classifiers = [
