@@ -157,6 +157,10 @@ rank_enum = GraphQLEnumType(
             value="GRAND_CHAMP_ROYALE",
             description="The Grand Champ Royale rank."
         ),
+        "GRAND_CHAMP_SUPREME": GraphQLEnumValue(
+            value="GRAND_CHAMP_SUPREME",
+            description="The Grand Champ Supreme rank."
+        ),
         "MODERATOR": GraphQLEnumValue(
             value="MODERATOR",
             description="The Moderator rank."
