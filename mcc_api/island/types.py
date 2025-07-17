@@ -197,7 +197,8 @@ currency_type = GraphQLObjectType(
         ),
         "materialDust": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The number of material dust the player currently has."
+            description="The number of material dust the player currently has.",
+            deprecation_reason="Material Dust no longer exists. Will return 0 until removal."
         ),
         "royalReputation": GraphQLField(
             GraphQLNonNull(GraphQLInt),
@@ -205,7 +206,8 @@ currency_type = GraphQLObjectType(
         ),
         "silver": GraphQLField(
             GraphQLNonNull(GraphQLInt),
-            description="The number of silver the player currently has."
+            description="The number of silver the player currently has.",
+            deprecation_reason="Silver no longer exists. Will return 0 until removal."
         )
     }
 )
