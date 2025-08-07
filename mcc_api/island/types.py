@@ -116,6 +116,10 @@ cosmetic_type = GraphQLObjectType(
             description="If this cosmetic awards bonus trophies.\n\n"
                         "This will be `null` if the cosmetic does not award any trophies."
         ),
+        "obtainmentHint": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="A hint as to how this cosmetic can be obtained."
+        ),
         "rarity": GraphQLField(
             GraphQLNonNull(rarity_enum),
             description="The rarity of the cosmetic."
