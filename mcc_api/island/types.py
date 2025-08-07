@@ -582,11 +582,20 @@ statistic_type = GraphQLObjectType(
             GraphQLList(GraphQLNonNull(leaderboard_entry_type)),
             description="Returns the leaderboard for this statistic in a given rotation.\n\n"
                         "If this statistic does not generate leaderboards, "
-                        "or the statistic is not tracked for the provided rotation, this will return `null`.",
+                        "or the statistic is not tracked for the provided rotation, this will return `null`.\n\n"
+                        "Both the `amount` and `offset` fields are coerced lower than arbitrary maximum values "
+                        "which may change at any time.\n\n"
+                        "The amount of returned entries may be larger than `amount`.\n"
+                        "This is because the `amount` field determines the number of placements "
+                        "to return and multiple users may be tied on the same placement.",
             args={
                 "amount": GraphQLArgument(
                     GraphQLNonNull(GraphQLInt),
                     default_value=10
+                ),
+                "offset": GraphQLArgument(
+                    GraphQLNonNull(GraphQLInt),
+                    default_value=0
                 ),
                 "rotation": GraphQLArgument(
                     GraphQLNonNull(rotation_enum),
