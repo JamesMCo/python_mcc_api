@@ -134,6 +134,10 @@ cosmetic_type = GraphQLObjectType(
             description="The number of trophies this cosmetic awards.\n\n"
                         "Note that this does not include the completion bonus for applying all "
                         "Chroma Packs to the cosmetic."
+        ),
+        "type": GraphQLField(
+            GraphQLNonNull(cosmetic_type_enum),
+            description="The type of this cosmetic."
         )
     }
 )

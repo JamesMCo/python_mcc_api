@@ -3,6 +3,7 @@ from graphql import GraphQLEnumType, GraphQLEnumValue
 
 __all__ = [
     "cosmetic_category_enum",
+    "cosmetic_type_enum",
     "fish_catch_time_enum",
     "fish_weight_enum",
     "game_enum",
@@ -44,6 +45,38 @@ cosmetic_category_enum = GraphQLEnumType(
         "TRAIL": GraphQLEnumValue(
             value="TRAIL",
             description="Trails."
+        )
+    }
+)
+
+cosmetic_type_enum = GraphQLEnumType(
+    name="CosmeticType",
+    description="Different types of cosmetics.",
+    values={
+        "ARCANE": GraphQLEnumValue(
+            value="ARCANE",
+            description="Arcane cosmetics.\n\n"
+                        "Like standard cosmetics, but they boost a perk in the Style Perk system."
+        ),
+        "COLLECTOR": GraphQLEnumValue(
+            value="COLLECTOR",
+            description="Collector cosmetics.\n\n"
+                        "Incredibly difficult to obtain cosmetics that do not provide Style Trophies."
+        ),
+        "EXCLUSIVE": GraphQLEnumValue(
+            value="EXCLUSIVE",
+            description="Exclusive cosmetics.\n\n"
+                        "Like Standard cosmetics, but much rarer."
+        ),
+        "LIMITED": GraphQLEnumValue(
+            value="LIMITED",
+            description="Limited cosmetics.\n\n"
+                        "Cosmetics that are no longer obtainable except via trading.\n"
+                        "They are also worth Bonus Trophies."
+        ),
+        "STANDARD": GraphQLEnumValue(
+            value="STANDARD",
+            description="Standard cosmetics."
         )
     }
 )
