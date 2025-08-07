@@ -174,6 +174,10 @@ crown_level_type = GraphQLObjectType(
             GraphQLNonNull(level_data_type),
             description="The overall level data."
         ),
+        "styleLevelData": GraphQLField(
+            GraphQLNonNull(level_data_type),
+            description="The style level data."
+        ),
         "trophies": GraphQLField(
             GraphQLNonNull(trophy_data_type),
             description="The amount of trophies the player has.",
