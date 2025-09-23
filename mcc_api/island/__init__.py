@@ -2,6 +2,7 @@ from .. import __user_agent
 from .auth import APIKey
 from .directives import *
 from .enums import *
+from .interfaces import *
 from .types import *
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
@@ -17,15 +18,27 @@ schema = GraphQLSchema(
     query=query_type,
     directives=[*specified_directives, one_of_directive, spectaql_directive],
     types=[
+        auction_listing_type,
         collections_type,
+        cosmetic_type,
+        cosmetic_ownership_state_type,
+        cosmetic_token_type,
         crown_level_type,
         currency_type,
+        fish_type,
+        fish_caught_weight_type,
+        fish_record_type,
+        island_exchange_listing_type,
         leaderboard_entry_type,
+        level_data_type,
+        mcc_plus_status_type,
         party_type,
         player_type,
         progression_data_type,
         query_type,
+        royal_reputation_type,
         server_type,
+        simple_asset_type,
         social_type,
         statistic_type,
         statistic_value_result_type,
@@ -39,6 +52,8 @@ schema = GraphQLSchema(
         rotation_enum,
         server_category_enum,
         trophy_category_enum,
+
+        asset_interface,
     ]
 )
 

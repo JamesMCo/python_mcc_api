@@ -1,4 +1,5 @@
 from .enums import *
+from .interfaces import *
 from .scalars import *
 from graphql import (
     GraphQLArgument, GraphQLBoolean, GraphQLField, GraphQLInputField, GraphQLInputObjectType,
@@ -7,14 +8,17 @@ from graphql import (
 
 
 __all__ = [
+    "auction_listing_type",
     "collections_type",
     "cosmetic_type",
     "cosmetic_ownership_state_type",
+    "cosmetic_token_type",
     "crown_level_type",
     "currency_type",
     "fish_type",
     "fish_caught_weight_type",
     "fish_record_type",
+    "island_exchange_listing_type",
     "leaderboard_entry_type",
     "level_data_type",
     "mcc_plus_status_type",
@@ -24,6 +28,7 @@ __all__ = [
     "query_type",
     "royal_reputation_type",
     "server_type",
+    "simple_asset_type",
     "social_type",
     "statistic_type",
     "statistic_value_result_type",
@@ -32,6 +37,34 @@ __all__ = [
     "spectaqloption_type",
     "trophy_data_type"
 ]
+
+auction_listing_type = GraphQLObjectType(
+    name="AuctionListing",
+    description="An auction listing.",
+    fields={
+        "asset": GraphQLField(
+            GraphQLNonNull(asset_interface),
+            description="The asset that is being auctioned."
+        ),
+        "cost": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The current cost of the auction."
+        ),
+        "endTime": GraphQLField(
+            GraphQLNonNull(datetime_scalar),
+            description="The time this auction will end."
+        ),
+        "identifier": GraphQLField(
+            GraphQLNonNull(uuid_scalar),
+            description="A unique identifier for this listing.\n\n"
+                        "This can be used to deduplicate listings if storing externally."
+        ),
+        "lastUpdateTime": GraphQLField(
+            GraphQLNonNull(datetime_scalar),
+            description="The time this auction received a bid or the start time if no bids have been made yet."
+        )
+    }
+)
 
 collections_type = GraphQLObjectType(
     name="Collections",
@@ -74,6 +107,7 @@ collections_type = GraphQLObjectType(
 
 cosmetic_type = GraphQLObjectType(
     name="Cosmetic",
+    interfaces=[asset_interface],
     description="A cosmetic.",
     fields=lambda: {
         "name": GraphQLField(
@@ -136,6 +170,13 @@ cosmetic_type = GraphQLObjectType(
         "type": GraphQLField(
             GraphQLNonNull(cosmetic_type_enum),
             description="The type of this cosmetic."
+        ),
+        "uniqueIdentifier": GraphQLField(
+            GraphQLNonNull(uuid_scalar),
+            description="A unique identifier for this specific type of asset.\n\n"
+                        "This is based on the internal identifier for this asset and can be used "
+                        "to track it over time.\n"
+                        "For example, if the name of this asset changed, the identifier would remain the same."
         )
     }
 )
@@ -160,6 +201,33 @@ cosmetic_ownership_state_type = GraphQLObjectType(
         "owned": GraphQLField(
             GraphQLNonNull(GraphQLBoolean),
             description="If the cosmetic is owned."
+        )
+    }
+)
+
+cosmetic_token_type = GraphQLObjectType(
+    name="CosmeticToken",
+    interfaces=[asset_interface],
+    description="A cosmetic token.",
+    fields={
+        "cosmetic": GraphQLField(
+            GraphQLNonNull(cosmetic_type),
+            description="The cosmetic this token holds."
+        ),
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of this cosmetic token."
+        ),
+        "rarity": GraphQLField(
+            GraphQLNonNull(rarity_enum),
+            description="The rarity of this asset."
+        ),
+        "uniqueIdentifier": GraphQLField(
+            GraphQLNonNull(uuid_scalar),
+            description="A unique identifier for this specific type of asset.\n\n"
+                        "This is based on the internal identifier for this asset and can be used "
+                        "to track it over time.\n"
+                        "For example, if the name of this asset changed, the identifier would remain the same."
         )
     }
 )
@@ -214,6 +282,7 @@ currency_type = GraphQLObjectType(
 
 fish_type = GraphQLObjectType(
     name="Fish",
+    interfaces=[asset_interface],
     description="A fish.\n\n"
                 "Queries on this type that accept a weight as an argument will return `null` if this fish does not "
                 "support the provided weight.",
@@ -250,6 +319,15 @@ fish_type = GraphQLObjectType(
             GraphQLNonNull(GraphQLString),
             description="The name of the fish."
         ),
+        "sellingPrice": GraphQLField(
+            GraphQLInt,
+            description="The number of A.N.G.L.R. Tokens given for selling this fish in a given weight.",
+            args={
+                "weight": GraphQLArgument(
+                    GraphQLNonNull(fish_weight_enum)
+                )
+            }
+        ),
         "rarity": GraphQLField(
             GraphQLNonNull(rarity_enum),
             description="The rarity of the fish."
@@ -263,14 +341,12 @@ fish_type = GraphQLObjectType(
                 )
             }
         ),
-        "sellingPrice": GraphQLField(
-            GraphQLInt,
-            description="The number of A.N.G.L.R. Tokens given for selling this fish in a given weight.",
-            args={
-                "weight": GraphQLArgument(
-                    GraphQLNonNull(fish_weight_enum)
-                )
-            }
+        "uniqueIdentifier": GraphQLField(
+            GraphQLNonNull(uuid_scalar),
+            description="A unique identifier for this specific type of asset.\n\n"
+                        "This is based on the internal identifier for this asset and can be used "
+                        "to track it over time.\n"
+                        "For example, if the name of this asset changed, the identifier would remain the same."
         )
     }
 )
@@ -301,6 +377,38 @@ fish_record_type = GraphQLObjectType(
         "weights": GraphQLField(
             GraphQLNonNull(GraphQLList(GraphQLNonNull(fish_caught_weight_type))),
             description="A list of data about the weights that have been caught."
+        )
+    }
+)
+
+island_exchange_listing_type = GraphQLObjectType(
+    name="IslandExchangeListing",
+    description="A listing in the Island Exchange.",
+    fields={
+        "amount": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The amount of the asset that is being sold."
+        ),
+        "asset": GraphQLField(
+            GraphQLNonNull(asset_interface),
+            description="The asset that is being sold."
+        ),
+        "cost": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The cost of purchasing this listing."
+        ),
+        "creationTime": GraphQLField(
+            GraphQLNonNull(datetime_scalar),
+            description="The time this listing was created."
+        ),
+        "endTime": GraphQLField(
+            GraphQLNonNull(datetime_scalar),
+            description="The time this listing will expire (if the listing is active) or the time it sold."
+        ),
+        "identifier": GraphQLField(
+            GraphQLNonNull(uuid_scalar),
+            description="A unique identifier for this entry.\n\n"
+                        "This can be used to deduplicate listings if storing externally."
         )
     }
 )
@@ -513,6 +621,26 @@ query_type = GraphQLObjectType(
                     GraphQLNonNull(rotation_enum)
                 )
             }
+        ),
+        "activeIslandExchangeListings": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(island_exchange_listing_type))),
+            description="Returns a list of all active Island Exchange listings.\n\n"
+                        "This endpoint will not return listings until they have been "
+                        "active for a certain length of time.\n"
+                        "This is to help prevent sniping/botting and to ensure server "
+                        "players have priority of website/bot users."
+        ),
+        "soldIslandExchangeListings": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(island_exchange_listing_type))),
+            description="Returns a list of all Island Exchange sales made in the last 24 hours.\n\n"
+                        "This only includes listings that sold successfully.\n"
+                        "Listings that did not sell or are still active are not included in this."
+        ),
+        "activeAuctionListings": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(auction_listing_type))),
+            description="Returns a list of all active auctions.\n\n"
+                        "This includes items being sold in the Grand Auction as well as other auctions "
+                        "(such as event auctions)."
         )
     }
 )
@@ -547,6 +675,31 @@ server_type = GraphQLObjectType(
         "subType": GraphQLField(
             GraphQLNonNull(GraphQLString),
             description="The sub-type of the server that can hold additional information about the server."
+        )
+    }
+)
+
+simple_asset_type = GraphQLObjectType(
+    name="SimpleAsset",
+    interfaces=[asset_interface],
+    description="A simple implementation of an asset.\n\n"
+                "This type is used for when there is no other concrete implementation "
+                "of asset that is better suited to be returned.",
+    fields={
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of this asset."
+        ),
+        "rarity": GraphQLField(
+            GraphQLNonNull(rarity_enum),
+            description="The rarity of this asset."
+        ),
+        "uniqueIdentifier": GraphQLField(
+            GraphQLNonNull(uuid_scalar),
+            description="A unique identifier for this specific type of asset.\n\n"
+                        "This is based on the internal identifier for this asset and can be used "
+                        "to track it over time.\n"
+                        "For example, if the name of this asset changed, the identifier would remain the same."
         )
     }
 )
