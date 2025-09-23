@@ -421,7 +421,8 @@ leaderboard_entry_type = GraphQLObjectType(
             player_type,
             description="The player who has this entry.\n\n"
                         "This will be `null` if the player does not have the statistics enabled for the API.\n"
-                        "However, for Crown Level or Trophy count leaderboards, the player will not be `null`."
+                        "However, for Crown Level or Trophy count leaderboards, the player will not be `null`.\n"
+                        "It will also never be `null` for players with a rank less than or equal to 10."
         ),
         "rank": GraphQLField(
             GraphQLNonNull(GraphQLInt),

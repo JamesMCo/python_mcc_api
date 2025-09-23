@@ -7,9 +7,9 @@ python_mcc_api
 .. image:: https://img.shields.io/badge/👑_Targeting_Event_API-v1.6.0-red
    :alt: 👑 Targeting Event API v1.6.0
    :target: https://github.com/Noxcrew/mcchampionship-api/releases/tag/v1.6.0
-.. image:: https://img.shields.io/badge/🏝️_Targeting_Island_API-v25.08.07-aqua
-   :alt: 🏝️ Targeting Island API v25.08.07
-   :target: https://github.com/Noxcrew/mccisland-api/releases/tag/v25.08.07
+.. image:: https://img.shields.io/badge/🏝️_Targeting_Island_API-v25.09.23-aqua
+   :alt: 🏝️ Targeting Island API v25.09.23
+   :target: https://github.com/Noxcrew/mccisland-api/releases/tag/v25.09.23
 
 A helper library for the `MC Championship <https://mcchampionship.com>`_ APIs
 (`Event <https://github.com/Noxcrew/mcchampionship-api>`_, inspired by `derNiklaas's <https://github.com/derNiklaas>`_
