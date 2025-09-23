@@ -33,8 +33,6 @@ __all__ = [
     "trophy_data_type"
 ]
 
-from .scalars import date_scalar
-
 collections_type = GraphQLObjectType(
     name="Collections",
     description="Collections data.",
