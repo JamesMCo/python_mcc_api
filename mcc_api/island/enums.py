@@ -2,17 +2,38 @@ from graphql import GraphQLEnumType, GraphQLEnumValue
 
 
 __all__ = [
+    "boost_type_enum",
     "cosmetic_category_enum",
     "cosmetic_type_enum",
     "fish_catch_time_enum",
     "fish_weight_enum",
     "game_enum",
+    "quest_type_enum",
     "rank_enum",
     "rarity_enum",
     "rotation_enum",
     "server_category_enum",
     "trophy_category_enum"
 ]
+
+boost_type_enum = GraphQLEnumType(
+    name="BoostType",
+    description="A boost type for a quest.",
+    values={
+        "ARCANE_BOOSTED": GraphQLEnumValue(
+            value="ARCANE_BOOSTED",
+            description="The quest is arcane boosted."
+        ),
+        "BOOSTED": GraphQLEnumValue(
+            value="BOOSTED",
+            description="The quest is boosted."
+        ),
+        "NONE": GraphQLEnumValue(
+            value="NONE",
+            description="The quest is not boosted."
+        )
+    }
+)
 
 cosmetic_category_enum = GraphQLEnumType(
     name="CosmeticCategory",
@@ -162,6 +183,25 @@ game_enum = GraphQLEnumType(
         "TGTTOS": GraphQLEnumValue(
             value="TGTTOS",
             description="To Get To The Other Side (TGTTOS)."
+        )
+    }
+)
+
+quest_type_enum = GraphQLEnumType(
+    name="QuestType",
+    description="A type of quest.",
+    values={
+        "DAILY": GraphQLEnumValue(
+            value="DAILY",
+            description="A daily quest."
+        ),
+        "SCROLL": GraphQLEnumValue(
+            value="SCROLL",
+            description="A quest scroll."
+        ),
+        "WEEKLY": GraphQLEnumValue(
+            value="WEEKLY",
+            description="A weekly quest."
         )
     }
 )

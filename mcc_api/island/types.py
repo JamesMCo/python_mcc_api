@@ -3,21 +3,29 @@ from .interfaces import *
 from .scalars import *
 from graphql import (
     GraphQLArgument, GraphQLBoolean, GraphQLField, GraphQLInputField, GraphQLInputObjectType,
-    GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString
+    GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString, GraphQLUnionType
 )
 
 
 __all__ = [
     "auction_listing_type",
+    "badge_type",
+    "badge_progress_type",
+    "badge_stage_type",
+    "badge_stage_progress_type",
     "collections_type",
     "cosmetic_type",
     "cosmetic_ownership_state_type",
     "cosmetic_token_type",
     "crown_level_type",
     "currency_type",
+    "faction_type",
     "fish_type",
     "fish_caught_weight_type",
     "fish_record_type",
+    "general_goal_type",
+    "global_leaderboard_entry_type",
+    "goal_type",
     "island_exchange_listing_type",
     "leaderboard_entry_type",
     "level_data_type",
@@ -26,11 +34,13 @@ __all__ = [
     "player_type",
     "progression_data_type",
     "query_type",
+    "quest_type",
     "royal_reputation_type",
     "server_type",
     "simple_asset_type",
     "social_type",
     "statistic_type",
+    "statistic_progress_type",
     "statistic_value_result_type",
     "statistics_type",
     "status_type",
@@ -62,6 +72,74 @@ auction_listing_type = GraphQLObjectType(
         "lastUpdateTime": GraphQLField(
             GraphQLNonNull(datetime_scalar),
             description="The time this auction received a bid or the start time if no bids have been made yet."
+        )
+    }
+)
+
+badge_type = GraphQLObjectType(
+    name="Badge",
+    description="A badge.",
+    fields=lambda: {
+        "goal": GraphQLField(
+            GraphQLNonNull(goal_type),
+            description="The goal this badge requires."
+        ),
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of the badge."
+        ),
+        "stages": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(badge_stage_type))),
+            description="The stages of this badge."
+        )
+    }
+)
+
+badge_progress_type = GraphQLObjectType(
+    name="BadgeProgress",
+    description="A badge with its progress",
+    fields=lambda: {
+        "badge": GraphQLField(
+            GraphQLNonNull(badge_type),
+            description="The badge itself."
+        ),
+        "stageProgress": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(badge_stage_progress_type))),
+            description="The progress of each stage of the badge."
+        )
+    }
+)
+
+badge_stage_type = GraphQLObjectType(
+    name="BadgeStage",
+    description="A stage in a badge.",
+    fields={
+        "bonusTrophies": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The number of bonus trophies this stage gives."
+        ),
+        "stage": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The stage of the badge."
+        ),
+        "trophies": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The number of trophies this stage gives."
+        )
+    }
+)
+
+badge_stage_progress_type = GraphQLObjectType(
+    name="BadgeStageProgress",
+    description="The progress of a badge stage.",
+    fields=lambda: {
+        "progress": GraphQLField(
+            GraphQLNonNull(progression_data_type),
+            description="The progress."
+        ),
+        "stage": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The stage of the badge."
         )
     }
 )
@@ -280,6 +358,29 @@ currency_type = GraphQLObjectType(
     }
 )
 
+faction_type = GraphQLObjectType(
+    name="Faction",
+    description="Information about a faction.",
+    fields=lambda: {
+        "levelData": GraphQLField(
+            GraphQLNonNull(level_data_type),
+            description="The faction level data."
+        ),
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of this faction."
+        ),
+        "selected": GraphQLField(
+            GraphQLNonNull(GraphQLBoolean),
+            description="Whether this faction is currently the selected faction for the player."
+        ),
+        "totalExperience": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The total amount of experience the player has."
+        )
+    }
+)
+
 fish_type = GraphQLObjectType(
     name="Fish",
     interfaces=[asset_interface],
@@ -379,6 +480,47 @@ fish_record_type = GraphQLObjectType(
             description="A list of data about the weights that have been caught."
         )
     }
+)
+
+general_goal_type = GraphQLObjectType(
+    name="GeneralGoal",
+    description="A goal that isn't tied to a statistic.",
+    fields={
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of this goal."
+        )
+    }
+)
+
+global_leaderboard_entry_type = GraphQLObjectType(
+    name="GlobalLeaderboardEntry",
+    description="A global leaderboard entry.\n\n"
+                "This is used for leaderboards that do not have players as entries, "
+                "e.g. the global faction leaderboard.",
+    fields={
+        "name": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The name of this entry."
+        ),
+        "rank": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The rank of this entry."
+        ),
+        "value": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The value of this entry."
+        )
+    }
+)
+
+goal_type = GraphQLUnionType(
+    name="Goal",
+    description="A goal.",
+    types=lambda: [
+        statistic_type,
+        general_goal_type
+    ]
 )
 
 island_exchange_listing_type = GraphQLObjectType(
@@ -500,6 +642,13 @@ player_type = GraphQLObjectType(
     name="Player",
     description="A player who has logged in to MCC Island.",
     fields=lambda: {
+        "badges": GraphQLField(
+            GraphQLList(GraphQLNonNull(badge_progress_type)),
+            description="The badges for the player.\n\n"
+                        "A list of badges and the progress each badge stage has.\n\n"
+                        "This method is conditional on the player having the in-game "
+                        "\"statistics\" API setting enabled."
+        ),
         "collections": GraphQLField(
             collections_type,
             description="Collections data for the player.\n\n"
@@ -510,9 +659,23 @@ player_type = GraphQLObjectType(
             GraphQLNonNull(crown_level_type),
             description="The player's Crown Level and associated trophy data."
         ),
+        "factions": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(faction_type))),
+            description="Faction data for the player.\n\n"
+                        "A list with all factions data for the player, including level, experience, "
+                        "and whether is is the currently selected faction."
+        ),
         "mccPlusStatus": GraphQLField(
             mcc_plus_status_type,
             description="The player's MCC+ status, if currently subscribed."
+        ),
+        "quests": GraphQLField(
+            GraphQLList(GraphQLNonNull(quest_type)),
+            description="The quests for the player.\n\n"
+                        "A list of quests the player currently has, this includes completed quests "
+                        "and currently active quests, including scrolls.\n\n"
+                        "This method is conditional on the player having the in-game "
+                        "\"quests\" API setting enabled."
         ),
         "ranks": GraphQLField(
             GraphQLNonNull(GraphQLList(GraphQLNonNull(rank_enum))),
@@ -592,6 +755,10 @@ query_type = GraphQLObjectType(
             GraphQLNonNull(GraphQLList(GraphQLNonNull(statistic_type))),
             description="Returns a list of all known statistics."
         ),
+        "badges": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(badge_type))),
+            description="Returns a list of all known badges."
+        ),
         "statistic": GraphQLField(
             statistic_type,
             description="Returns a statistic by it's name.",
@@ -642,6 +809,42 @@ query_type = GraphQLObjectType(
             description="Returns a list of all active auctions.\n\n"
                         "This includes items being sold in the Grand Auction as well as other auctions "
                         "(such as event auctions)."
+        ),
+        "factionLeaderboard": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(global_leaderboard_entry_type))),
+            description="Returns the global faction leaderboard.\n\n"
+                        "This leaderboard ranks all factions by the amount of XP players have gained in that faction.\n"
+                        "The values returned are a percentage of all XP earned in all factions.\n"
+                        "For example, if Red Rabbits returned a value of 15, "
+                        "that would mean they have 15% of all faction XP.\n"
+                        "As all percentages are rounded down, the values may not sum to 100%."
+        )
+    }
+)
+
+quest_type = GraphQLObjectType(
+    name="Quest",
+    description="Information about a quest.",
+    fields=lambda: {
+        "boost": GraphQLField(
+            GraphQLNonNull(boost_type_enum),
+            description="The boost type."
+        ),
+        "completed": GraphQLField(
+            GraphQLNonNull(GraphQLBoolean),
+            description="If this quest is completed or not."
+        ),
+        "rarity": GraphQLField(
+            GraphQLNonNull(rarity_enum),
+            description="The rarity."
+        ),
+        "tasks": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(statistic_progress_type))),
+            description="The tasks this quest has."
+        ),
+        "type": GraphQLField(
+            GraphQLNonNull(quest_type_enum),
+            description="The type of the quest."
         )
     }
 )
@@ -763,6 +966,21 @@ statistic_type = GraphQLObjectType(
                         "These are the rotations that can be used to generate leaderboards or fetch rotation values.\n"
                         "Note that the `YEARLY` rotation never generates leaderboards, "
                         "even if it is returned in this list."
+        )
+    }
+)
+
+statistic_progress_type = GraphQLObjectType(
+    name="StatisticProgress",
+    description="The progress of a statistic on a progression value.",
+    fields={
+        "progress": GraphQLField(
+            GraphQLNonNull(progression_data_type),
+            description="The progress."
+        ),
+        "statistic": GraphQLField(
+            GraphQLNonNull(statistic_type),
+            description="The statistic."
         )
     }
 )
