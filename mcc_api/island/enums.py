@@ -47,9 +47,21 @@ cosmetic_category_enum = GraphQLEnumType(
             value="AURA",
             description="Auras."
         ),
+        "BOW": GraphQLEnumValue(
+            value="BOW",
+            description="Bows."
+        ),
         "CLOAK": GraphQLEnumValue(
             value="CLOAK",
             description="Cloaks."
+        ),
+        "CROSSBOW": GraphQLEnumValue(
+            value="CROSSBOW",
+            description="Crossbows."
+        ),
+        "DAGGER": GraphQLEnumValue(
+            value="DAGGER",
+            description="Daggers."
         ),
         "HAIR": GraphQLEnumValue(
             value="HAIR",
@@ -59,9 +71,21 @@ cosmetic_category_enum = GraphQLEnumType(
             value="HAT",
             description="Hats."
         ),
+        "HEAVY_CROSSBOW": GraphQLEnumValue(
+            value="HEAVY_CROSSBOW",
+            description="Heavy crossbows."
+        ),
         "ROD": GraphQLEnumValue(
             value="ROD",
             description="Fishing rods."
+        ),
+        "SHORTBOW": GraphQLEnumValue(
+            value="SHORTBOW",
+            description="Shortbows."
+        ),
+        "SWORD": GraphQLEnumValue(
+            value="SWORD",
+            description="Swords."
         ),
         "TRAIL": GraphQLEnumValue(
             value="TRAIL",

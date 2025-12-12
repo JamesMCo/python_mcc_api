@@ -4,5 +4,5 @@ __all__ = [
     "__version__"
 ]
 
-__version__ = "1.4.2"
+__version__ = "1.4.3"
 __user_agent: t.Final[str] = f"python_mcc_api/{__version__} (https://github.com/JamesMCo/python_mcc_api)"
