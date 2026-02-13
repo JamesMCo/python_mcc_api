@@ -8,6 +8,7 @@ from graphql import (
 
 
 __all__ = [
+    "asset_quantity_type",
     "auction_listing_type",
     "badge_type",
     "badge_progress_type",
@@ -44,9 +45,26 @@ __all__ = [
     "statistic_value_result_type",
     "statistics_type",
     "status_type",
-    "spectaqloption_type",
-    "trophy_data_type"
+    "trading_data_type",
+    "trophy_data_type",
+    "weapon_skin_data_type",
+    "spectaqloption_type"
 ]
+
+asset_quantity_type = GraphQLObjectType(
+    name="AssetQuantity",
+    description="An asset with an amount.",
+    fields=lambda: {
+        "asset": GraphQLField(
+            GraphQLNonNull(asset_interface),
+            description="The asset."
+        ),
+        "amount": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The amount owned."
+        )
+    }
+)
 
 auction_listing_type = GraphQLObjectType(
     name="AuctionListing",
@@ -214,8 +232,8 @@ cosmetic_type = GraphQLObjectType(
         ),
         "globalNumberOwned": GraphQLField(
             GraphQLString,
-            description="The number of people who own this cosmetic.\n\n"
-                        "The exact number is only displayed if fewer than 1000 players own this cosmetic.\n"
+            description="The number of people who have this cosmetic equipped in their wardrobe.\n\n"
+                        "The exact number is only displayed if fewer than 1000 players have this cosmetic.\n"
                         "Otherwise, either `1000+` or `10000+` will be returned, indicating the real value is higher "
                         "than this number.\n"
                         "Some cosmetics are excluded from ownership reporting, for these cosmetics `null` will be "
@@ -262,7 +280,7 @@ cosmetic_type = GraphQLObjectType(
 cosmetic_ownership_state_type = GraphQLObjectType(
     name="CosmeticOwnershipState",
     description="The ownership state of a cosmetic.",
-    fields={
+    fields=lambda: {
         "chromaPacks": GraphQLField(
             GraphQLList(GraphQLNonNull(GraphQLString)),
             description="The Chroma Packs that have applied to this cosmetic, if it is colorable."
@@ -279,6 +297,10 @@ cosmetic_ownership_state_type = GraphQLObjectType(
         "owned": GraphQLField(
             GraphQLNonNull(GraphQLBoolean),
             description="If the cosmetic is owned."
+        ),
+        "weaponSkinData": GraphQLField(
+            weapon_skin_data_type,
+            description="The weapon skin data for this cosmetic, if applicable."
         )
     }
 )
@@ -287,7 +309,7 @@ cosmetic_token_type = GraphQLObjectType(
     name="CosmeticToken",
     interfaces=[asset_interface],
     description="A cosmetic token.",
-    fields={
+    fields=lambda: {
         "cosmetic": GraphQLField(
             GraphQLNonNull(cosmetic_type),
             description="The cosmetic this token holds."
@@ -305,7 +327,13 @@ cosmetic_token_type = GraphQLObjectType(
             description="A unique identifier for this specific type of asset.\n\n"
                         "This is based on the internal identifier for this asset and can be used "
                         "to track it over time.\n"
-                        "For example, if the name of this asset changed, the identifier would remain the same."
+                        "For example, if the name of this asset changed, the identifier would remain the same.\n\n"
+                        "If the cosmetic held in this token is a weapon skin, the unique identifier will be "
+                        "different for each tier."
+        ),
+        "weaponSkinData": GraphQLField(
+            weapon_skin_data_type,
+            description="The weapon skin data for this cosmetic token, if applicable."
         )
     }
 )
@@ -665,6 +693,16 @@ player_type = GraphQLObjectType(
                         "A list with all factions data for the player, including level, experience, "
                         "and whether is is the currently selected faction."
         ),
+        "infinibag": GraphQLField(
+            GraphQLList(GraphQLNonNull(asset_quantity_type)),
+            description="The contents of the player's Infinibag.\n\n"
+                        "This method is conditional on the player having the in-game \"infinibag\" API setting enabled."
+        ),
+        "infinivault": GraphQLField(
+            GraphQLList(GraphQLNonNull(asset_quantity_type)),
+            description="The contents of the plaeyr's Infinivault.\n\n"
+                        "This method is conditional on the player having the in-game \"infinibag\" API setting enabled."
+        ),
         "mccPlusStatus": GraphQLField(
             mcc_plus_status_type,
             description="The player's MCC+ status, if currently subscribed."
@@ -818,6 +856,14 @@ query_type = GraphQLObjectType(
                         "For example, if Red Rabbits returned a value of 15, "
                         "that would mean they have 15% of all faction XP.\n"
                         "As all percentages are rounded down, the values may not sum to 100%."
+        ),
+        "tradableAssets": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(trading_data_type))),
+            description="Returns a list of tradable assets.\n\n"
+                        "An asset is considered tradable if it can be traded using player trading or sold "
+                        "in the Island Exchange.\n"
+                        "Note that this method \"flattens\" weapon skins into a simple combination of "
+                        "the token and the tier."
         )
     }
 )
@@ -919,6 +965,21 @@ social_type = GraphQLObjectType(
         "party": GraphQLField(
             GraphQLNonNull(party_type),
             description="The player's party."
+        )
+    }
+)
+
+# Despite being an internal type, defining SpectaQLOption means that no breaking changes
+# will be found when comparing this schema to that available from the API itself.
+spectaqloption_type = GraphQLInputObjectType(
+    name="SpectaQLOption",
+    description="Internal key/value pair for documentation options.",
+    fields={
+        "key": GraphQLInputField(
+            GraphQLNonNull(GraphQLString)
+        ),
+        "value": GraphQLInputField(
+            GraphQLNonNull(GraphQLString)
         )
     }
 )
@@ -1045,6 +1106,26 @@ status_type = GraphQLObjectType(
     }
 )
 
+trading_data_type = GraphQLObjectType(
+    name="TradingData",
+    description="Data relating to assets that can be traded.",
+    fields={
+        "asset": GraphQLField(
+            GraphQLNonNull(asset_interface),
+            description="The asset in question."
+        ),
+        "globalNumberOwned": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The number of the asset that is owned.\n\n"
+                        "This is the total sum of all this asset that exists in the Infinibags and Infinivaults "
+                        "of all players.\n"
+                        "The exact number is only displayed if fewer than 1000 of this asset exist.\n"
+                        "Otherwise, either `1000+` or `10000+` will be returned, indicating the real value is higher "
+                        "than this number."
+        )
+    }
+)
+
 trophy_data_type = GraphQLObjectType(
     name="TrophyData",
     description="Data on the amount of trophies a user has/can have.",
@@ -1064,17 +1145,25 @@ trophy_data_type = GraphQLObjectType(
     }
 )
 
-# Despite being an internal type, defining SpectaQLOption means that no breaking changes
-# will be found when comparing this schema to that available from the API itself.
-spectaqloption_type = GraphQLInputObjectType(
-    name="SpectaQLOption",
-    description="Internal key/value pair for documentation options.",
+weapon_skin_data_type = GraphQLObjectType(
+    name="WeaponSkinData",
+    description="Data relating to a weapon skin.",
     fields={
-        "key": GraphQLInputField(
-            GraphQLNonNull(GraphQLString)
+        "chromaSet": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The chroma set applied to this weapon skin."
         ),
-        "value": GraphQLInputField(
-            GraphQLNonNull(GraphQLString)
+        "eliminationEffect": GraphQLField(
+            GraphQLString,
+            description="The elimination effect applied to this weapon skin, if any."
+        ),
+        "kills": GraphQLField(
+            GraphQLInt,
+            description="The number of kills tracked on this weapon skin, if applicable."
+        ),
+        "tier": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="The tier of this weapon skin, from 0 to 3."
         )
     }
 )

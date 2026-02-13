@@ -47,6 +47,10 @@ cosmetic_category_enum = GraphQLEnumType(
             value="AURA",
             description="Auras."
         ),
+        "AXE": GraphQLEnumValue(
+            value="AXE",
+            description="Axes."
+        ),
         "BOW": GraphQLEnumValue(
             value="BOW",
             description="Bows."
@@ -113,10 +117,22 @@ cosmetic_type_enum = GraphQLEnumType(
             description="Exclusive cosmetics.\n\n"
                         "Like Standard cosmetics, but much rarer."
         ),
+        "LEGACY": GraphQLEnumValue(
+            value="LEGACY",
+            description="Legacy cosmetics.\n\n"
+                        "Cosmetics that are worth Bonus Trophies and are not tradable."
+        ),
         "LIMITED": GraphQLEnumValue(
             value="LIMITED",
             description="Limited cosmetics.\n\n"
                         "Cosmetics that are no longer obtainable except via trading.\n"
+                        "They are also worth Bonus Trophies."
+        ),
+        "PREMIUM": GraphQLEnumValue(
+            value="PREMIUM",
+            description="Premium cosmetics.\n\n"
+                        "Cosmetics that are only obtainable by premium means, or through trading.\n"
+                        "They remain always obtainable, or will become obtainable again in the future.\n"
                         "They are also worth Bonus Trophies."
         ),
         "STANDARD": GraphQLEnumValue(
