@@ -115,7 +115,7 @@ badge_type = GraphQLObjectType(
 
 badge_progress_type = GraphQLObjectType(
     name="BadgeProgress",
-    description="A badge with its progress",
+    description="A badge with its progress.",
     fields=lambda: {
         "badge": GraphQLField(
             GraphQLNonNull(badge_type),
@@ -691,7 +691,7 @@ player_type = GraphQLObjectType(
             GraphQLNonNull(GraphQLList(GraphQLNonNull(faction_type))),
             description="Faction data for the player.\n\n"
                         "A list with all factions data for the player, including level, experience, "
-                        "and whether is is the currently selected faction."
+                        "and whether it is the currently selected faction."
         ),
         "infinibag": GraphQLField(
             GraphQLList(GraphQLNonNull(asset_quantity_type)),
@@ -700,7 +700,7 @@ player_type = GraphQLObjectType(
         ),
         "infinivault": GraphQLField(
             GraphQLList(GraphQLNonNull(asset_quantity_type)),
-            description="The contents of the plaeyr's Infinivault.\n\n"
+            description="The contents of the player's Infinivault.\n\n"
                         "This method is conditional on the player having the in-game \"infinibag\" API setting enabled."
         ),
         "mccPlusStatus": GraphQLField(
@@ -834,7 +834,7 @@ query_type = GraphQLObjectType(
                         "This endpoint will not return listings until they have been "
                         "active for a certain length of time.\n"
                         "This is to help prevent sniping/botting and to ensure server "
-                        "players have priority of website/bot users."
+                        "players have priority over website/bot users."
         ),
         "soldIslandExchangeListings": GraphQLField(
             GraphQLNonNull(GraphQLList(GraphQLNonNull(island_exchange_listing_type))),

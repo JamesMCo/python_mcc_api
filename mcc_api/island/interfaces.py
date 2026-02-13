@@ -12,7 +12,7 @@ asset_interface = GraphQLInterfaceType(
     description="An asset.\n\n"
                 "Effectively, an asset encompasses all forms of items on the Island.\n"
                 "This includes Cosmetics, openables, materials, fish, etc.\n"
-                "Basically anything that can fit in your Infinibag!",
+                "Basically, anything that can fit in your Infinibag!",
     fields={
         "name": GraphQLField(
             GraphQLNonNull(GraphQLString),
