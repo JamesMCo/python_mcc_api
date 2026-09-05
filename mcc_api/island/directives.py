@@ -1,18 +1,30 @@
 from .types import spectaqloption_type
-from graphql import DirectiveLocation, GraphQLArgument, GraphQLDirective, GraphQLList
+from graphql import (
+    DEFAULT_DEPRECATION_REASON, DirectiveLocation, GraphQLArgument, GraphQLDirective, GraphQLList, GraphQLString
+)
 
 
 __all__ = [
-    "one_of_directive", "spectaql_directive"
+    "deprecated_directive", "spectaql_directive"
 ]
 
-# oneOf is not one of the directives defined by the GraphQL specification, and thus
-# needs to be defined in order to avoid breaking changed being found when comparing
-# this schema to that available from the API itself.
-one_of_directive = GraphQLDirective(
-    name="oneOf",
-    description="Indicates an Input Object is a OneOf Input Object.",
-    locations=[DirectiveLocation.INPUT_OBJECT]
+# The locations defined by the graphql module's GraphQLDeprecatedDirective do not match those
+# defined by the API's schema, so we need this version to prevent breaking changes being found.
+deprecated_directive = GraphQLDirective(
+    name="deprecated",
+    description="The reason for the deprecation",
+    args={
+        "reason": GraphQLArgument(
+            GraphQLString,
+            default_value=DEFAULT_DEPRECATION_REASON
+        )
+    },
+    locations=[
+        DirectiveLocation.FIELD_DEFINITION,
+        DirectiveLocation.ARGUMENT_DEFINITION,
+        DirectiveLocation.ENUM_VALUE,
+        DirectiveLocation.INPUT_FIELD_DEFINITION
+    ]
 )
 
 # Despite being an internal directive, defining @spectaql means that no breaking changes

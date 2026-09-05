@@ -6,7 +6,9 @@ from .interfaces import *
 from .types import *
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
-from graphql import GraphQLSchema, specified_directives
+from graphql import (
+    GraphQLSchema, GraphQLIncludeDirective, GraphQLSkipDirective, GraphQLSpecifiedByDirective, GraphQLOneOfDirective
+)
 import typing as t
 
 
@@ -16,7 +18,10 @@ __base_url: t.Final[str] = "https://api.mccisland.net/graphql"
 
 schema = GraphQLSchema(
     query=query_type,
-    directives=[*specified_directives, one_of_directive, spectaql_directive],
+    directives=[
+        GraphQLIncludeDirective, GraphQLSkipDirective, deprecated_directive,
+        GraphQLSpecifiedByDirective, GraphQLOneOfDirective, spectaql_directive
+    ],
     types=[
         asset_quantity_type,
         auction_listing_type,
