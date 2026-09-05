@@ -864,6 +864,28 @@ query_type = GraphQLObjectType(
                         "in the Island Exchange.\n"
                         "Note that this method \"flattens\" weapon skins into a simple combination of "
                         "the token and the tier."
+        ),
+        "availableQueueTypes": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(GraphQLString))),
+            description="Returns a list of available queues."
+        ),
+        "playerCount": GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description="Returns the amount of players playing a queue.",
+            args={
+                "queueType": GraphQLArgument(
+                    GraphQLNonNull(GraphQLString)
+                )
+            }
+        ),
+        "popularity": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="Returns the popularity string currently shown for a given queue.",
+            args={
+                "queueType": GraphQLArgument(
+                    GraphQLNonNull(GraphQLString)
+                )
+            }
         )
     }
 )
@@ -922,9 +944,17 @@ server_type = GraphQLObjectType(
             GraphQLNonNull(server_category_enum),
             description="The category of the server."
         ),
+        "server": GraphQLField(
+            GraphQLNonNull(GraphQLString),
+            description="The main server type of the server."
+        ),
         "subType": GraphQLField(
             GraphQLNonNull(GraphQLString),
             description="The sub-type of the server that can hold additional information about the server."
+        ),
+        "types": GraphQLField(
+            GraphQLNonNull(GraphQLList(GraphQLNonNull(GraphQLString))),
+            description="The type keys of this server."
         )
     }
 )
