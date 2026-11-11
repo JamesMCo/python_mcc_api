@@ -62,7 +62,7 @@ def get_event(*, timeout: int = 5) -> EventInformationResponse:
 def get_events(*, timeout: int = 5) -> EventsResponse:
     """Get all event keys currently made available by the API.
 
-    - Calls the `/events <https://api.mcchampionship.com/docs/#/v1/AppController_getEventKeys>_ endpoint.
+    - Calls the `/events <https://api.mcchampionship.com/docs/#/v1/AppController_getEventKeys>`_ endpoint.
     - Returns an :class:`mcc_api.EventsResponse` containing all available event keys.
     - May raise a :class:`requests.Timeout` exception, with the number of seconds before timing out specified by the
     `timeout` parameter and defaulting to 5.
